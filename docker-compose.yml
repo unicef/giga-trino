@@ -1,0 +1,7 @@
+services:
+  trino:
+    image: trinodb/trino:426
+    restart: unless-stopped
+    init: true
+    ports:
+      - "8080:8080"

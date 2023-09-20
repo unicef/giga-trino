@@ -1,0 +1,32 @@
+trigger:
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  kubernetesServiceConnection: $(KUBERNETES_SERVICE_CONNECTION)
+  kubernetesNamespace: $(KUBERNETES_NAMESPACE)
+  system.debug: true
+
+steps:
+  - task: HelmDeploy@0
+    displayName: Add Trino Helm Repo
+    inputs:
+      connectionType: Kubernetes Service Connection
+      kubernetesServiceEndpoint: $(kubernetesServiceConnection)
+      command: repo
+      arguments: add trino https://trinodb.github.io/charts/
+      namespace: $(kubernetesNamespace)
+
+  - task: HelmDeploy@0
+    displayName: Helm deploy Trino
+    inputs:
+      connectionType: Kubernetes Service Connection
+      kubernetesServiceEndpoint: $(kubernetesServiceConnection)
+      command: upgrade
+      chartType: Name
+      chartName: trino/trino
+      releaseName: trino
+      namespace: $(kubernetesNamespace)
+      arguments: --values values.yaml

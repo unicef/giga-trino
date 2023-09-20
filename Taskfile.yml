@@ -1,0 +1,51 @@
+version: '3'
+
+vars:
+  PROJECT_NAME: giga-dataops-platform_trino
+
+tasks:
+  default:
+    desc: Build and start Docker containers
+    cmds:
+      - docker compose --project-name {{.PROJECT_NAME}} up --detach --build --remove-orphans {{.CLI_ARGS}}
+
+  setup:
+    desc: Run first-time setup tasks
+    cmds:
+      - pip install pre-commit
+      - pre-commit install
+
+  logs:
+    desc: Attach to Docker logs
+    cmds:
+      - docker compose --project-name {{.PROJECT_NAME}} logs --follow {{.CLI_ARGS}}
+
+  stop:
+    desc: Stop containers
+    cmds:
+      - docker compose --project-name {{.PROJECT_NAME}} stop {{.CLI_ARGS}}
+
+  restart:
+    desc: Restart containers
+    cmds:
+      - docker compose --project-name {{.PROJECT_NAME}} restart {{.CLI_ARGS}}
+
+  exec:
+    desc: Run a command in the specified container
+    cmds:
+      - docker compose --project-name {{.PROJECT_NAME}} exec {{.CLI_ARGS}}
+
+  clean:
+    desc: Remove containers
+    cmds:
+      - docker compose --project-name {{.PROJECT_NAME}} down --volumes --remove-orphans {{.CLI_ARGS}}
+
+  helm-up:
+    desc: Install/upgrade Helm chart
+    cmds:
+      - helm upgrade --install trino trino/trino --values values.yaml
+
+  helm-down:
+    desc: Uninstall Helm chart
+    cmds:
+      - helm uninstall trino
