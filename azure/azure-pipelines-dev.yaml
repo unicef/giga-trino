@@ -1,5 +1,9 @@
 trigger:
-  - main
+  branches:
+    include:
+      - main
+
+pr: none
 
 pool:
   vmImage: ubuntu-latest
@@ -7,6 +11,8 @@ pool:
 variables:
   kubernetesServiceConnection: $(KUBERNETES_SERVICE_CONNECTION)
   kubernetesNamespace: $(KUBERNETES_NAMESPACE)
+  sharedSecret: $(SHARED_SECRET)
+  adminAuth: $(ADMIN_AUTH)
   system.debug: true
 
 steps:
@@ -29,4 +35,9 @@ steps:
       chartName: trino/trino
       releaseName: trino
       namespace: $(kubernetesNamespace)
-      arguments: --values values.yaml
+      arguments: >
+        --values $(Build.SourcesDirectory)/infra/helm/values.yaml
+        --set server.workerExtraConfig="internal-communication.shared-secret=$(sharedSecret)"
+        --set server.coordinatorExtraConfig="internal-communication.shared-secret=$(sharedSecret)"
+        --set auth.passwordAuth="$(adminAuth)"
+        --set ingress.enabled=true
