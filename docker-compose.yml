@@ -1,6 +1,11 @@
+networks:
+  default:
+    name: giga-dataops
+    external: true
+
 services:
   trino:
-    image: trinodb/trino:426
+    image: trinodb/trino:433
     restart: unless-stopped
     init: true
     ports:

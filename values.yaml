@@ -7,20 +7,20 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart version.
   # Same value as Chart.yaml#appVersion
-  tag: 423
+  tag: 432
 
 imagePullSecrets:
   - name: registry-credentials
 
 server:
-  workers: 2
+  workers: 3
   node:
     environment: production
     dataDir: /data/trino
     pluginDir: /usr/lib/trino/plugin
   log:
     trino:
-      level: INFO
+      level: ERROR
   config:
     path: /etc/trino
     http:
@@ -32,9 +32,9 @@ server:
         path: ""
     # Trino supports multiple authentication types: PASSWORD, CERTIFICATE, OAUTH2, JWT, KERBEROS
     # For more info: https://trino.io/docs/current/security/authentication-types.html
-    authenticationType: ""
+    authenticationType: "PASSWORD"
     query:
-      maxMemory: "4GB"
+      maxMemory: "2GB"
   exchangeManager:
     name: "filesystem"
     baseDir: "/tmp/trino-local-file-system-exchange-manager"
@@ -64,36 +64,36 @@ accessControl: { }
   #           "catalog": "postgres",
   #           "allow": true
   #         },
-  #         {
-  #           "catalog": "hive",
-  #           "allow": "all"
-  #         },
-  #         {
-  #           "user": "alice",
-  #           "catalog": "postgresql",
-  #           "allow": "read-only"
-  #         },
-  #         {
-  #           "catalog": "system",
-  #           "allow": "none"
-  #         }
-  #       ],
-  #       "schemas": [
-  #         {
-  #           "user": "admin",
-  #           "schema": ".*",
-  #           "owner": true
-  #         },
-  #         {
-  #           "user": "guest",
-  #           "owner": false
-  #         },
-  #         {
-  #           "catalog": "default",
-  #           "schema": "default",
-  #           "owner": true
-  #         }
-  #       ]
+#         {
+#           "catalog": "hive",
+#           "allow": "all"
+#         },
+#         {
+#           "user": "alice",
+#           "catalog": "postgresql",
+#           "allow": "read-only"
+#         },
+#         {
+#           "catalog": "system",
+#           "allow": "none"
+#         }
+#       ],
+#       "schemas": [
+#         {
+#           "user": "admin",
+#           "schema": ".*",
+#           "owner": true
+#         },
+#         {
+#           "user": "guest",
+#           "owner": false
+#         },
+#         {
+#           "catalog": "default",
+#           "schema": "default",
+#           "owner": true
+#         }
+#       ]
 #     }
 
 additionalNodeProperties: { }
@@ -115,28 +115,48 @@ env: [ ]
 envFrom: [ ]
 
 initContainers: { }
-  # coordinator:
-  #   - name: init-coordinator
-  #     image: busybox:1.28
-  #     imagePullPolicy: IfNotPresent
-  #     command: ['sh', '-c', "until nslookup myservice.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for myservice; sleep 2; done"]
-  # worker:
-  #   - name: init-worker
-  #     image: busybox:1.28
+# coordinator:
+#   - name: init-coordinator
+#     image: busybox:1.28
+#     imagePullPolicy: IfNotPresent
+#     command: ['sh', '-c', "until nslookup myservice.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for myservice; sleep 2; done"]
+# worker:
+#   - name: init-worker
+#     image: busybox:1.28
 #     command: ['sh', '-c', 'echo The worker is running! && sleep 3600']
+
+sidecarContainers: { }
+#   coordinator:
+#     - name: side-coordinator
+#       image: busybox:1.28
+#       imagePullPolicy: IfNotPresent
+#       command: ['sleep', '1']
+#   worker:
+#     - name: side-worker
+#       image: busybox:1.28
+#       imagePullPolicy: IfNotPresent
+#       command: ['sleep', '1']
 
 securityContext:
   runAsUser: 1000
   runAsGroup: 1000
 
+shareProcessNamespace:
+  coordinator: false
+  worker: false
+
 service:
   type: LoadBalancer
   port: 8080
 
-auth: { }
+auth:
   # Set username and password
   # https://trino.io/docs/current/security/password-file.html#file-format
-# passwordAuth: "username:encrypted-password-with-htpasswd"
+  passwordAuth: ""
+# Set users' groups
+# https://trino.io/docs/current/security/group-file.html#file-format
+# refreshPeriod: 5s
+# groups: "group_name:user_1,user_2,user_3"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -148,10 +168,13 @@ serviceAccount:
   annotations: { }
 
 secretMounts: [ ]
+# - name: sample-secret
+#   secretName: sample-secret
+#   path: /secrets/sample.json
 
 coordinator:
   jvm:
-    maxHeapSize: "8G"
+    maxHeapSize: "4G"
     gcMethod:
       type: "UseG1GC"
       g1:
@@ -168,28 +191,28 @@ coordinator:
   additionalExposedPorts: { }
 
   resources: { }
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
   #   memory: 128Mi
 
   livenessProbe: { }
-    # initialDelaySeconds: 20
-    # periodSeconds: 10
-    # timeoutSeconds: 5
-    # failureThreshold: 6
+  # initialDelaySeconds: 20
+  # periodSeconds: 10
+  # timeoutSeconds: 5
+  # failureThreshold: 6
   # successThreshold: 1
   readinessProbe: { }
-    # initialDelaySeconds: 20
-    # periodSeconds: 10
-    # timeoutSeconds: 5
-    # failureThreshold: 6
+  # initialDelaySeconds: 20
+  # periodSeconds: 10
+  # timeoutSeconds: 5
+  # failureThreshold: 6
   # successThreshold: 1
 
   nodeSelector: { }
@@ -203,10 +226,15 @@ coordinator:
   annotations: { }
 
   labels: { }
+
+  secretMounts: [ ]
+  # - name: sample-secret
+  #   secretName: sample-secret
+  #   path: /secrets/sample.json
 
 worker:
   jvm:
-    maxHeapSize: "8G"
+    maxHeapSize: "2G"
     gcMethod:
       type: "UseG1GC"
       g1:
@@ -223,28 +251,28 @@ worker:
   additionalExposedPorts: { }
 
   resources: { }
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
   #   memory: 128Mi
 
   livenessProbe: { }
-    # initialDelaySeconds: 20
-    # periodSeconds: 10
-    # timeoutSeconds: 5
-    # failureThreshold: 6
+  # initialDelaySeconds: 20
+  # periodSeconds: 10
+  # timeoutSeconds: 5
+  # failureThreshold: 6
   # successThreshold: 1
   readinessProbe: { }
-    # initialDelaySeconds: 20
-    # periodSeconds: 10
-    # timeoutSeconds: 5
-    # failureThreshold: 6
+  # initialDelaySeconds: 20
+  # periodSeconds: 10
+  # timeoutSeconds: 5
+  # failureThreshold: 6
   # successThreshold: 1
 
   nodeSelector: { }
@@ -258,55 +286,62 @@ worker:
   annotations: { }
 
   labels: { }
+
+  secretMounts: [ ]
+  # - name: sample-secret
+  #   secretName: sample-secret
+  #   path: /secrets/sample.json
 
 kafka:
   mountPath: "/etc/trino/schemas"
   tableDescriptions: { }
     # Custom kafka table descriptions that will be mounted in mountPath
     # testschema.json: |-
-    #   {
-    #     "tableName": "testtable",
-    #     "schemaName": "testschema",
-    #     "topicName": "testtopic",
-    #     "key": {
-    #       "dataFormat": "json",
-    #       "fields": [
-    #         {
-    #           "name": "_key",
-    #           "dataFormat": "VARCHAR",
-    #           "type": "VARCHAR",
-    #           "hidden": "false"
-    #         }
-    #       ]
-    #     },
-    #     "message": {
-    #       "dataFormat": "json",
-    #       "fields": [
-    #         {
-    #           "name": "id",
-    #           "mapping": "id",
-    #           "type": "BIGINT"
-    #         },
-    #         {
-    #           "name": "test_field",
-    #           "mapping": "test_field",
-    #           "type": "VARCHAR"
-    #         }
-    #       ]
-    #     }
+  #   {
+  #     "tableName": "testtable",
+  #     "schemaName": "testschema",
+  #     "topicName": "testtopic",
+  #     "key": {
+  #       "dataFormat": "json",
+  #       "fields": [
+  #         {
+  #           "name": "_key",
+  #           "dataFormat": "VARCHAR",
+  #           "type": "VARCHAR",
+  #           "hidden": "false"
+  #         }
+  #       ]
+  #     },
+  #     "message": {
+  #       "dataFormat": "json",
+  #       "fields": [
+  #         {
+  #           "name": "id",
+  #           "mapping": "id",
+  #           "type": "BIGINT"
+  #         },
+  #         {
+  #           "name": "test_field",
+  #           "mapping": "test_field",
+  #           "type": "VARCHAR"
+  #         }
+  #       ]
+  #     }
   #   }
 commonLabels: { }  # Labels that get applied to every resource's metadata
 ingress:
   enabled: false
   className: ""
-  annotations: { }
-  hosts: [ ]
-  #  - host: trino.example.com
-  #    paths:
-  #      - path: /
-  #        pathType: ImplementationSpecific
+  annotations:
+    kubernetes.io/ingress.class: azure/application-gateway
+    appgw.ingress.kubernetes.io/appgw-ssl-certificate: "kv-cert-unitst"
+    appgw.ingress.kubernetes.io/ssl-redirect: "true"
+  hosts:
+    - host: io-trino-dev.unitst.org
+      paths:
+        - path: /
+          pathType: Exact
   tls: [ ]
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-

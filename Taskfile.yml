@@ -1,12 +1,22 @@
 version: '3'
 
+dotenv:
+  - .env
+
 vars:
-  PROJECT_NAME: giga-dataops-platform_trino
+  PROJECT_NAME: giga-dataops_trino
+  SHORT_SHA:
+    sh: git rev-parse --short HEAD
 
 tasks:
   default:
+    cmds:
+      - task: helm-up
+
+  up:
     desc: Build and start Docker containers
     cmds:
+      - docker compose --project-name giga-dataops-platform --file docker-compose-network.yaml up --detach --build --remove-orphans {{.CLI_ARGS}}
       - docker compose --project-name {{.PROJECT_NAME}} up --detach --build --remove-orphans {{.CLI_ARGS}}
 
   setup:
@@ -39,13 +49,21 @@ tasks:
     desc: Remove containers
     cmds:
       - docker compose --project-name {{.PROJECT_NAME}} down --volumes --remove-orphans {{.CLI_ARGS}}
+      - docker compose --project-name giga-dataops-platform --file docker-compose-network.yaml down --volumes --remove-orphans {{.CLI_ARGS}}
 
   helm-up:
     desc: Install/upgrade Helm chart
     cmds:
-      - helm upgrade --install trino trino/trino --values values.yaml
+      - >
+        helm upgrade --install trino trino/trino
+        --values values.yaml
+        --set server.workerExtraConfig="internal-communication.shared-secret={{.SHARED_SECRET}}"
+        --set server.coordinatorExtraConfig="internal-communication.shared-secret={{.SHARED_SECRET}}"
+        --set auth.passwordAuth={{.ADMIN_AUTH}}
 
   helm-down:
     desc: Uninstall Helm chart
     cmds:
       - helm uninstall trino
+      - kubectl delete all --all
+      - kubectl delete pvc --all
