@@ -40,3 +40,4 @@ steps:
         --set server.workerExtraConfig="internal-communication.shared-secret=$(sharedSecret)"
         --set server.coordinatorExtraConfig="internal-communication.shared-secret=$(sharedSecret)"
         --set auth.passwordAuth="$(adminAuth)"
+        --set ingress.enabled=true
