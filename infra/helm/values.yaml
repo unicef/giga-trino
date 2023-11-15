@@ -63,7 +63,7 @@ accessControl: { }
   #           "group": "finance|human_resources",
   #           "catalog": "postgres",
   #           "allow": true
-  #         },
+#         },
 #         {
 #           "catalog": "hive",
 #           "allow": "all"
@@ -146,7 +146,7 @@ shareProcessNamespace:
   worker: false
 
 service:
-  type: LoadBalancer
+  type: ClusterIP
   port: 8080
 
 auth:
@@ -296,7 +296,7 @@ kafka:
   mountPath: "/etc/trino/schemas"
   tableDescriptions: { }
     # Custom kafka table descriptions that will be mounted in mountPath
-    # testschema.json: |-
+  # testschema.json: |-
   #   {
   #     "tableName": "testtable",
   #     "schemaName": "testschema",

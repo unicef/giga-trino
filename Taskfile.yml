@@ -53,13 +53,15 @@ tasks:
 
   helm-up:
     desc: Install/upgrade Helm chart
+    dir: infra
     cmds:
       - >
         helm upgrade --install trino trino/trino
-        --values values.yaml
+        --values helm/values.yaml
         --set server.workerExtraConfig="internal-communication.shared-secret={{.SHARED_SECRET}}"
         --set server.coordinatorExtraConfig="internal-communication.shared-secret={{.SHARED_SECRET}}"
         --set auth.passwordAuth={{.ADMIN_AUTH}}
+        --set service.type=LoadBalancer
 
   helm-down:
     desc: Uninstall Helm chart
