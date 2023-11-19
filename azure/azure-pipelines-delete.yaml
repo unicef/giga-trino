@@ -11,11 +11,11 @@ variables:
   system.debug: true
 
 stages:
-  - stage: Deploy
-    displayName: Deploy Trino
+  - stage: Delete
+    displayName: Delete Trino
     jobs:
-      - deployment: Deploy
-        displayName: Trino Deployment
+      - deployment: Delete
+        displayName: Delete Trino Deployment
         environment: $(kubernetesEnvironment)
         strategy:
           runOnce:
