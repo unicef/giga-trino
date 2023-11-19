@@ -1,7 +1,4 @@
-trigger:
-  branches:
-    include:
-      - main
+trigger: none
 
 pr: none
 
@@ -9,35 +6,39 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  kubernetesServiceConnection: $(KUBERNETES_SERVICE_CONNECTION)
+  kubernetesEnvironment: $(KUBERNETES_ENVIRONMENT)
   kubernetesNamespace: $(KUBERNETES_NAMESPACE)
   system.debug: true
 
-steps:
-  - task: HelmDeploy@0
-    displayName: Helm uninstall Trino
-    inputs:
-      connectionType: Kubernetes Service Connection
-      kubernetesServiceEndpoint: $(kubernetesServiceConnection)
-      namespace: $(kubernetesNamespace)
-      command: uninstall
-      arguments: trino
+stages:
+  - stage: Deploy
+    displayName: Deploy Trino
+    jobs:
+      - deployment: Deploy
+        displayName: Trino Deployment
+        environment: $(kubernetesEnvironment)
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: HelmDeploy@0
+                  displayName: Helm uninstall Trino
+                  inputs:
+                    namespace: $(kubernetesNamespace)
+                    command: uninstall
+                    arguments: trino
 
-  - task: Kubernetes@1
-    displayName: Delete resources in namespace
-    inputs:
-      connectionType: Kubernetes Service Connection
-      kubernetesServiceEndpoint: $(kubernetesServiceConnection)
-      command: delete
-      arguments: all --all
-      namespace: $(kubernetesNamespace)
+                - task: Kubernetes@1
+                  displayName: Delete resources in namespace
+                  inputs:
+                    command: delete
+                    arguments: all --all
+                    namespace: $(kubernetesNamespace)
 
-  - task: Kubernetes@1
-    displayName: Delete PVCs in namespace
-    continueOnError: true
-    inputs:
-      connectionType: Kubernetes Service Connection
-      kubernetesServiceEndpoint: $(kubernetesServiceConnection)
-      command: delete
-      arguments: pvc --all
-      namespace: $(kubernetesNamespace)
+                - task: Kubernetes@1
+                  displayName: Delete PVCs in namespace
+                  continueOnError: true
+                  inputs:
+                    command: delete
+                    arguments: pvc --all
+                    namespace: $(kubernetesNamespace)
