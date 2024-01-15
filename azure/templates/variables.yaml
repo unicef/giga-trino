@@ -1,0 +1,6 @@
+variables:
+  kubernetesEnvironment: $(KUBERNETES_ENVIRONMENT)
+  kubernetesNamespace: $(KUBERNETES_NAMESPACE)
+  sharedSecret: $(SHARED_SECRET)
+  adminAuth: $(ADMIN_AUTH)
+  system.debug: true

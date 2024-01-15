@@ -1,0 +1,31 @@
+jobs:
+  - deployment: Deploy
+    displayName: Trino Deployment
+    environment: $(kubernetesEnvironment)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+
+            - task: HelmDeploy@0
+              displayName: Add Trino Helm Repo
+              inputs:
+                command: repo
+                arguments: add trino https://trinodb.github.io/charts/
+                namespace: $(kubernetesNamespace)
+
+            - task: HelmDeploy@0
+              displayName: Helm deploy Trino
+              inputs:
+                command: upgrade
+                chartType: Name
+                chartName: trino/trino
+                releaseName: trino
+                namespace: $(kubernetesNamespace)
+                arguments: >
+                  --values $(Build.SourcesDirectory)/infra/helm/values.yaml
+                  --set server.workerExtraConfig="internal-communication.shared-secret=$(sharedSecret)"
+                  --set server.coordinatorExtraConfig="internal-communication.shared-secret=$(sharedSecret)"
+                  --set auth.passwordAuth="$(adminAuth)"
+                  --set ingress.enabled=true
