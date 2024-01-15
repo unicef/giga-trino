@@ -1,0 +1,26 @@
+jobs:
+  - deployment: Deploy
+    displayName: Create/update K8s configuration resources
+    environment: $(kubernetesEnvironment)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+
+            - task: Kubernetes@1
+              displayName: Create secret
+              inputs:
+                namespace: $(kubernetesNamespace)
+                configurationType: inline
+                command: apply
+                useConfigurationFile: true
+                inline: |
+                  apiVersion: v1
+                  kind: Secret
+                  metadata:
+                    name: trino-secrets
+                    labels:
+                      app: giga-trino
+                  stringData:
+                    password.db: "$(adminAuth)"

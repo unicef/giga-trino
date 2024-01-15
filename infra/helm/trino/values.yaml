@@ -20,7 +20,7 @@ server:
     pluginDir: /usr/lib/trino/plugin
   log:
     trino:
-      level: ERROR
+      level: INFO
   config:
     path: /etc/trino
     http:
@@ -34,16 +34,21 @@ server:
     # For more info: https://trino.io/docs/current/security/authentication-types.html
     authenticationType: "PASSWORD"
     query:
-      maxMemory: "2GB"
+      maxMemory: "4GB"
   exchangeManager:
     name: "filesystem"
     baseDir: "/tmp/trino-local-file-system-exchange-manager"
   workerExtraConfig: ""
-  coordinatorExtraConfig: ""
+  coordinatorExtraConfig: |-
+    http-server.authentication.allow-insecure-over-http=true
+    http-server.process-forwarded=true
+    web-ui.enabled=true
+    web-ui.authentication.type=FORM
   autoscaling:
     enabled: false
     maxReplicas: 5
     targetCPUUtilizationPercentage: 50
+  internalSharedSecret: ""
 
 accessControl: { }
   # type: configmap
@@ -63,28 +68,28 @@ accessControl: { }
   #           "group": "finance|human_resources",
   #           "catalog": "postgres",
   #           "allow": true
-#         },
-#         {
-#           "catalog": "hive",
-#           "allow": "all"
-#         },
-#         {
-#           "user": "alice",
-#           "catalog": "postgresql",
-#           "allow": "read-only"
-#         },
-#         {
-#           "catalog": "system",
-#           "allow": "none"
-#         }
-#       ],
-#       "schemas": [
-#         {
-#           "user": "admin",
-#           "schema": ".*",
-#           "owner": true
-#         },
-#         {
+  #         },
+  #         {
+  #           "catalog": "hive",
+  #           "allow": "all"
+  #         },
+  #         {
+  #           "user": "alice",
+  #           "catalog": "postgresql",
+  #           "allow": "read-only"
+  #         },
+  #         {
+  #           "catalog": "system",
+  #           "allow": "none"
+  #         }
+  #       ],
+  #       "schemas": [
+  #         {
+  #           "user": "admin",
+  #           "schema": ".*",
+  #           "owner": true
+  #         },
+  #         {
 #           "user": "guest",
 #           "owner": false
 #         },
@@ -152,7 +157,9 @@ service:
 auth:
   # Set username and password
   # https://trino.io/docs/current/security/password-file.html#file-format
-  passwordAuth: ""
+  # passwordAuth: "username:encrypted-password-with-htpasswd"
+  # or set the name of a secret containing this file in the password.db key
+  passwordAuthSecret: "trino-secrets"
 # Set users' groups
 # https://trino.io/docs/current/security/group-file.html#file-format
 # refreshPeriod: 5s
@@ -174,7 +181,7 @@ secretMounts: [ ]
 
 coordinator:
   jvm:
-    maxHeapSize: "4G"
+    maxHeapSize: "8G"
     gcMethod:
       type: "UseG1GC"
       g1:
@@ -234,7 +241,7 @@ coordinator:
 
 worker:
   jvm:
-    maxHeapSize: "2G"
+    maxHeapSize: "8G"
     gcMethod:
       type: "UseG1GC"
       g1:
@@ -296,28 +303,28 @@ kafka:
   mountPath: "/etc/trino/schemas"
   tableDescriptions: { }
     # Custom kafka table descriptions that will be mounted in mountPath
-  # testschema.json: |-
-  #   {
-  #     "tableName": "testtable",
-  #     "schemaName": "testschema",
-  #     "topicName": "testtopic",
-  #     "key": {
-  #       "dataFormat": "json",
-  #       "fields": [
-  #         {
-  #           "name": "_key",
-  #           "dataFormat": "VARCHAR",
-  #           "type": "VARCHAR",
-  #           "hidden": "false"
-  #         }
-  #       ]
-  #     },
-  #     "message": {
-  #       "dataFormat": "json",
-  #       "fields": [
-  #         {
-  #           "name": "id",
-  #           "mapping": "id",
+    # testschema.json: |-
+    #   {
+    #     "tableName": "testtable",
+    #     "schemaName": "testschema",
+    #     "topicName": "testtopic",
+    #     "key": {
+    #       "dataFormat": "json",
+    #       "fields": [
+    #         {
+    #           "name": "_key",
+    #           "dataFormat": "VARCHAR",
+    #           "type": "VARCHAR",
+    #           "hidden": "false"
+    #         }
+    #       ]
+    #     },
+    #     "message": {
+    #       "dataFormat": "json",
+    #       "fields": [
+    #         {
+    #           "name": "id",
+    #           "mapping": "id",
   #           "type": "BIGINT"
   #         },
   #         {
@@ -340,7 +347,7 @@ ingress:
     - host: io-trino-dev.unitst.org
       paths:
         - path: /
-          pathType: Exact
+          pathType: Prefix
   tls: [ ]
   #  - secretName: chart-example-tls
   #    hosts:
