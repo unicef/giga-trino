@@ -6,9 +6,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  kubernetesEnvironment: $(KUBERNETES_ENVIRONMENT)
-  kubernetesNamespace: $(KUBERNETES_NAMESPACE)
-  system.debug: true
+  - template: templates/variables.yaml
 
 stages:
   - stage: Delete

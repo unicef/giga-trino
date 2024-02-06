@@ -3,4 +3,6 @@ variables:
   kubernetesNamespace: $(KUBERNETES_NAMESPACE)
   sharedSecret: $(SHARED_SECRET)
   adminAuth: $(ADMIN_AUTH)
+  sourceBranch: $(SOURCE_BRANCH)
+  deployEnv: $(DEPLOY_ENV)
   system.debug: true

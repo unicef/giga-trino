@@ -1,7 +1,6 @@
 trigger:
   branches:
-    include:
-      - main
+    include: [ "$(SOURCE_BRANCH)" ]
 
 pr: none
 
