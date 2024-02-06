@@ -1,0 +1,10 @@
+stages:
+  - stage: CreateConfig
+    displayName: Create/update K8s configuration resources
+    jobs:
+      - template: create-config.yaml
+
+  - stage: Deploy
+    displayName: Deploy Trino
+    jobs:
+      - template: deploy.yaml
