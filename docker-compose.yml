@@ -5,8 +5,12 @@ networks:
 
 services:
   trino:
-    image: trinodb/trino:433
+    image: trinodb/trino:438
     restart: unless-stopped
+    env_file: .env
     init: true
     ports:
-      - "8080:8080"
+      - "8040:8080"
+    volumes:
+      - ./conf/catalog.properties:/etc/trino/catalog.properties
+      - ./conf/catalog/delta_lake.properties:/etc/trino/catalog/delta_lake.properties

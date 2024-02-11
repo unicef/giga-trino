@@ -49,7 +49,6 @@ tasks:
     desc: Remove containers
     cmds:
       - docker compose --project-name {{.PROJECT_NAME}} down --volumes --remove-orphans {{.CLI_ARGS}}
-      - docker compose --project-name giga-dataops-platform --file docker-compose-network.yaml down --volumes --remove-orphans {{.CLI_ARGS}}
 
   helm-up:
     desc: Install/upgrade Helm chart on a cluster running locally
