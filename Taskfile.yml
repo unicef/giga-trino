@@ -3,6 +3,10 @@ version: '3'
 dotenv:
   - .env
 
+env:
+  COMMIT_SHA:
+    sh: git rev-parse --short HEAD
+
 vars:
   PROJECT_NAME: giga-dataops_trino
 
@@ -50,33 +54,55 @@ tasks:
     cmds:
       - docker compose --project-name {{.PROJECT_NAME}} down --volumes --remove-orphans {{.CLI_ARGS}}
 
+  build-and-push:
+    desc: Build and push Docker image
+    cmds:
+      - task: build
+      - task: push
+
+  build:
+    internal: true
+    desc: Build Docker image
+    cmds:
+      - docker build --tag {{.TRINO_IMAGE_REPOSITORY}}:{{.COMMIT_SHA}} .
+
+  push:
+    internal: true
+    desc: Push Docker image
+    cmds:
+      - docker push {{.TRINO_IMAGE_REPOSITORY}}:{{.COMMIT_SHA}}
+
   helm-up:
     desc: Install/upgrade Helm chart on a cluster running locally
     dir: infra
     cmds:
+      - kubectl apply -f k8s/namespace.yaml
       - kubectl apply -f k8s/secrets.yaml
       - >
         helm upgrade --install trino ./helm/trino
         --namespace giga-trino
-        --create-namespace
         --set-string server.internalSharedSecret={{.SHARED_SECRET}}
         --set service.type=LoadBalancer
+        --set image.repository={{.TRINO_IMAGE_REPOSITORY}}
+        --set-string image.tag={{.COMMIT_SHA}}
 
   helm-upi:
     desc: Install/upgrade Helm chart with HTTPS-capable ingress
     dir: infra
     cmds:
+      - kubectl apply -f k8s/namespace.yaml
       - kubectl apply -f k8s/secrets.yaml
       - >
         helm upgrade --install trino ./helm/trino
         --namespace giga-trino
-        --create-namespace
         --set-string server.internalSharedSecret={{.SHARED_SECRET}}
         --set ingress.enabled=true
-        --set ingress.annotations=
+        --set ingress.annotations=null
         --set ingress.hosts[0].host={{.TRINO_INGRESS_HOST}}
         --set ingress.hosts[0].paths[0].path=/
         --set ingress.hosts[0].paths[0].pathType=Prefix
+        --set image.repository={{.TRINO_IMAGE_REPOSITORY}}
+        --set-string image.tag={{.COMMIT_SHA}}
 
   helm-down:
     desc: Uninstall Helm chart
