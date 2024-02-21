@@ -4,7 +4,7 @@
 
 image:
   repository: ""
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart version.
   # Same value as Chart.yaml#appVersion
   tag: ""
@@ -336,7 +336,7 @@ kafka:
     #           "dataFormat": "VARCHAR",
     #           "type": "VARCHAR",
     #           "hidden": "false"
-    #         }
+  #         }
   #       ]
   #     },
   #     "message": {
