@@ -138,6 +138,8 @@ env: [ ]
 envFrom:
   - secretRef:
       name: giga-trino-secrets
+  - configMapRef:
+      name: giga-trino-configmap
 
 initContainers: { }
 # coordinator:
@@ -334,8 +336,8 @@ kafka:
     #         {
     #           "name": "_key",
     #           "dataFormat": "VARCHAR",
-    #           "type": "VARCHAR",
-    #           "hidden": "false"
+  #           "type": "VARCHAR",
+  #           "hidden": "false"
   #         }
   #       ]
   #     },

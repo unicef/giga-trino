@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: giga-trino-configmap
+  labels:
+    app.kubernetes.io/name: giga-trino
+    app.kubernetes.io/part-of: giga-dataops-platform
+    app.kubernetes.io/component: giga-trino
+data:
+  HIVE_METASTORE_URI: "thrift://hive-metastore-external:9083"
