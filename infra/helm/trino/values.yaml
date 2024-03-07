@@ -3,11 +3,11 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: trinodb/trino
-  pullPolicy: IfNotPresent
+  repository: ""
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart version.
   # Same value as Chart.yaml#appVersion
-  tag: 432
+  tag: ""
 
 imagePullSecrets:
   - name: registry-credentials
@@ -50,11 +50,21 @@ server:
     targetCPUUtilizationPercentage: 50
   internalSharedSecret: ""
 
-accessControl: { }
+accessControl:
   # type: configmap
   # refreshPeriod: 60s
   # # Rules file is mounted to /etc/trino/access-control
   # configFile: "rules.json"
+  rules:
+    rules.json: |-
+      {
+        "catalogs": [
+          {
+            "catalog": "delta_lake",
+            "allow": "read-only"
+          }
+        ]
+      }
   # rules:
   #   rules.json: |-
   #     {
@@ -87,9 +97,9 @@ accessControl: { }
   #         {
   #           "user": "admin",
   #           "schema": ".*",
-  #           "owner": true
-  #         },
-  #         {
+#           "owner": true
+#         },
+#         {
 #           "user": "guest",
 #           "owner": false
 #         },
@@ -111,13 +121,25 @@ additionalExchangeManagerProperties: { }
 
 eventListenerProperties: { }
 
-additionalCatalogs: { }
+additionalCatalogs:
+  delta_lake: |
+    connector.name=delta_lake
+    hive.metastore.uri=${ENV:HIVE_METASTORE_URI}
+    hive.metastore.username=giga-trino
+    delta.security=READ_ONLY
+    hive.azure.wasb-storage-account=${ENV:AZURE_STORAGE_ACCOUNT_NAME}
+    hive.azure.wasb-access-key=${ENV:AZURE_STORAGE_ACCESS_KEY}
+
 
 # Array of EnvVar (https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#envvar-v1-core)
 env: [ ]
 
 # Array of EnvFromSource (https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#envfromsource-v1-core)
-envFrom: [ ]
+envFrom:
+  - secretRef:
+      name: giga-trino-secrets
+  - configMapRef:
+      name: giga-trino-configmap
 
 initContainers: { }
 # coordinator:
@@ -159,7 +181,7 @@ auth:
   # https://trino.io/docs/current/security/password-file.html#file-format
   # passwordAuth: "username:encrypted-password-with-htpasswd"
   # or set the name of a secret containing this file in the password.db key
-  passwordAuthSecret: "trino-secrets"
+  passwordAuthSecret: "giga-trino-secrets"
 # Set users' groups
 # https://trino.io/docs/current/security/group-file.html#file-format
 # refreshPeriod: 5s
@@ -314,17 +336,17 @@ kafka:
     #         {
     #           "name": "_key",
     #           "dataFormat": "VARCHAR",
-    #           "type": "VARCHAR",
-    #           "hidden": "false"
-    #         }
-    #       ]
-    #     },
-    #     "message": {
-    #       "dataFormat": "json",
-    #       "fields": [
-    #         {
-    #           "name": "id",
-    #           "mapping": "id",
+  #           "type": "VARCHAR",
+  #           "hidden": "false"
+  #         }
+  #       ]
+  #     },
+  #     "message": {
+  #       "dataFormat": "json",
+  #       "fields": [
+  #         {
+  #           "name": "id",
+  #           "mapping": "id",
   #           "type": "BIGINT"
   #         },
   #         {

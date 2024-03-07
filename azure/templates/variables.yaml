@@ -4,4 +4,6 @@ variables:
   sharedSecret: $(SHARED_SECRET)
   adminAuth: $(ADMIN_AUTH)
   deployEnv: $(DEPLOY_ENV)
+  storageAccessKey: $(AZURE_STORAGE_ACCESS_KEY)
+  storageAccountName: $(AZURE_STORAGE_ACCOUNT_NAME)
   system.debug: true
