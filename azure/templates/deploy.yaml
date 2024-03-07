@@ -19,3 +19,5 @@ jobs:
                 arguments: >
                   --set-string server.internalSharedSecret="$(sharedSecret)"
                   --set ingress.enabled=true
+                  --set image.repository="$(containerRegistryName).azurecr.io/giga-trino"
+                  --set-string image.tag="$(Build.SourceVersion)"

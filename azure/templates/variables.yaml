@@ -6,4 +6,6 @@ variables:
   deployEnv: $(DEPLOY_ENV)
   storageAccessKey: $(AZURE_STORAGE_ACCESS_KEY)
   storageAccountName: $(AZURE_STORAGE_ACCOUNT_NAME)
+  containerRegistryServiceConnection: $(ACR_SERVICE_CONNECTION)
+  containerRegistryName: $(ACR_NAME)
   system.debug: true
