@@ -3,11 +3,11 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: ""
+  repository: trinodb/trino
   pullPolicy: Always
   # Overrides the image tag whose default is the chart version.
   # Same value as Chart.yaml#appVersion
-  tag: ""
+  tag: "438"
 
 imagePullSecrets:
   - name: registry-credentials
@@ -51,10 +51,10 @@ server:
   internalSharedSecret: ""
 
 accessControl:
-  # type: configmap
+  type: configmap
   # refreshPeriod: 60s
   # # Rules file is mounted to /etc/trino/access-control
-  # configFile: "rules.json"
+  configFile: "rules.json"
   rules:
     rules.json: |-
       {
@@ -126,7 +126,6 @@ additionalCatalogs:
     connector.name=delta_lake
     hive.metastore.uri=${ENV:HIVE_METASTORE_URI}
     hive.metastore.username=giga-trino
-    delta.security=READ_ONLY
     hive.azure.wasb-storage-account=${ENV:AZURE_STORAGE_ACCOUNT_NAME}
     hive.azure.wasb-access-key=${ENV:AZURE_STORAGE_ACCESS_KEY}
 
@@ -329,13 +328,13 @@ kafka:
     #   {
     #     "tableName": "testtable",
     #     "schemaName": "testschema",
-    #     "topicName": "testtopic",
-    #     "key": {
-    #       "dataFormat": "json",
-    #       "fields": [
-    #         {
-    #           "name": "_key",
-    #           "dataFormat": "VARCHAR",
+  #     "topicName": "testtopic",
+  #     "key": {
+  #       "dataFormat": "json",
+  #       "fields": [
+  #         {
+  #           "name": "_key",
+  #           "dataFormat": "VARCHAR",
   #           "type": "VARCHAR",
   #           "hidden": "false"
   #         }
@@ -366,7 +365,7 @@ ingress:
     appgw.ingress.kubernetes.io/appgw-ssl-certificate: "kv-cert-unitst"
     appgw.ingress.kubernetes.io/ssl-redirect: "true"
   hosts:
-    - host: io-trino-dev.unitst.org
+    - host: ""
       paths:
         - path: /
           pathType: Prefix
