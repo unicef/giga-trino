@@ -32,9 +32,14 @@ jobs:
                     labels:
                       app.kubernetes.io/name: giga-trino
                       app.kubernetes.io/part-of: giga-dataops-platform
-                      app.kubernetes.io/component: giga-trino
+                      app.kubernetes.io/component: trino
                   stringData:
-                    password.db: "$(adminAuth)"
+                    password.db: |-
+                      $(adminAuth)
+                    group.db: |-
+                      admin:giga-admin,tmadmin
+                      giga-trino:giga-trino
+                      giga-superset:giga-superset
                     AZURE_STORAGE_ACCESS_KEY: "$(storageAccessKey)"
                     AZURE_STORAGE_ACCOUNT_NAME: "$(storageAccountName)"
 
@@ -53,7 +58,7 @@ jobs:
                     labels:
                       app.kubernetes.io/name: giga-trino
                       app.kubernetes.io/part-of: giga-dataops-platform
-                      app.kubernetes.io/component: giga-trino
+                      app.kubernetes.io/component: trino
                   spec:
                     type: ExternalName
                     externalName: "hive-metastore.ictd-ooi-dagster-$(deployEnv).svc.cluster.local"
