@@ -12,5 +12,10 @@ services:
     ports:
       - "8040:8080"
     volumes:
+      - ./conf/config.properties:/etc/trino/config.properties
       - ./conf/catalog.properties:/etc/trino/catalog.properties
+      - ./conf/access-control.properties:/etc/trino/access-control.properties
+      - ./conf/group-provider.properties:/etc/trino/group-provider.properties
+      - ./conf/rules.json:/etc/trino/rules.json
+      - ./conf/group.txt:/etc/trino/group.txt
       - ./conf/catalog/delta_lake.properties:/etc/trino/catalog/delta_lake.properties

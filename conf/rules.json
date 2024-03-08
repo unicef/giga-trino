@@ -1,0 +1,56 @@
+{
+  "catalogs": [
+    {
+      "role": "admin",
+      "catalog": "(system|delta_lake)",
+      "allow": "all"
+    },
+    {
+      "group": "(giga-trino|giga-superset)",
+      "catalog": "delta_lake",
+      "allow": "read-only"
+    },
+    {
+      "allow": "none"
+    }
+  ],
+  "schemas": [
+    {
+      "role": "admin",
+      "owner": true
+    }
+  ],
+  "tables": [
+    {
+      "role": "admin",
+      "privileges": ["SELECT", "OWNERSHIP", "GRANT_SELECT"]
+    },
+    {
+      "group": "(giga-superset|giga-trino)",
+      "catalog": "delta_lake",
+      "privileges": ["SELECT", "GRANT_SELECT"]
+    }
+  ],
+  "functions": [
+    {
+      "role": "admin",
+      "privileges": ["EXECUTE", "GRANT_EXECUTE", "OWNERSHIP"]
+    },
+    {
+      "group": "(giga-superset|giga-trino)",
+      "catalog": "delta_lake",
+      "function": "table_changes",
+      "privileges": ["EXECUTE", "GRANT_EXECUTE"]
+    }
+  ],
+  "queries": [
+    {
+      "role": "admin",
+      "allow": ["execute", "kill", "view"]
+    },
+    {
+      "group": "(giga-superset|giga-trino)",
+      "allow": ["execute", "view"]
+    }
+  ]
+}
