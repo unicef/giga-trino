@@ -1,0 +1,3 @@
+admin:giga-admin,tmadmin
+giga-trino:giga-trino
+giga-superset:giga-superset

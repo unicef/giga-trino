@@ -18,6 +18,6 @@ jobs:
                 namespace: $(kubernetesNamespace)
                 arguments: >
                   --set-string server.internalSharedSecret="$(sharedSecret)"
+                  --set-file 'accessControl.rules.rules\.json'="$(Build.SourcesDirectory)/conf/rules.json"
+                  --set-file additionalCatalogs.delta_lake="$(Build.SourcesDirectory)/conf/catalog/delta_lake.properties"
                   --set ingress.enabled=true
-                  --set image.repository="$(containerRegistryName).azurecr.io/giga-trino"
-                  --set-string image.tag="$(Build.SourceVersion)"

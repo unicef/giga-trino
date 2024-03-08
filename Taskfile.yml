@@ -72,39 +72,41 @@ tasks:
     cmds:
       - docker push {{.TRINO_IMAGE_REPOSITORY}}:{{.COMMIT_SHA}}
 
+  k8s-prereqs:
+    desc: Setup pre-requisite K8s resources
+    dir: infra/k8s
+    cmds:
+      - kubectl apply -f namespace.yaml
+      - kubectl apply -f secrets.yaml -n giga-trino
+      - kubectl apply -f configmap.local.yaml -n giga-trino
+
   helm-up:
     desc: Install/upgrade Helm chart on a cluster running locally
-    dir: infra
     cmds:
-      - kubectl apply -f k8s/namespace.yaml
-      - kubectl apply -f k8s/secrets.yaml -n giga-trino
-      - kubectl apply -f k8s/configmap.local.yaml -n giga-trino
+      - task: k8s-prereqs
       - >
-        helm upgrade --install trino ./helm/trino
+        helm upgrade --install trino ./infra/helm/trino
         --namespace giga-trino
         --set-string server.internalSharedSecret={{.SHARED_SECRET}}
+        --set-file 'accessControl.rules.rules\.json'=./conf/rules.json
+        --set-file additionalCatalogs.delta_lake=./conf/catalog/delta_lake.properties
         --set service.type=LoadBalancer
-        --set image.repository={{.TRINO_IMAGE_REPOSITORY}}
-        --set-string image.tag={{.COMMIT_SHA}}
 
   helm-upi:
-    desc: Install/upgrade Helm chart with HTTPS-capable ingress
-    dir: infra
+    desc: Install/upgrade Helm chart on a cluster with pre-configured HTTPS ingress
     cmds:
-      - kubectl apply -f k8s/namespace.yaml
-      - kubectl apply -f k8s/secrets.yaml -n giga-trino
-      - kubectl apply -f k8s/configmap.local.yaml -n giga-trino
+      - task: k8s-prereqs
       - >
-        helm upgrade --install trino ./helm/trino
+        helm upgrade --install trino ./infra/helm/trino
         --namespace giga-trino
         --set-string server.internalSharedSecret={{.SHARED_SECRET}}
+        --set-file 'accessControl.rules.rules\.json'=./conf/rules.json
+        --set-file additionalCatalogs.delta_lake=./conf/catalog/delta_lake.properties
         --set ingress.enabled=true
         --set ingress.annotations=null
         --set ingress.hosts[0].host={{.TRINO_INGRESS_HOST}}
         --set ingress.hosts[0].paths[0].path=/
         --set ingress.hosts[0].paths[0].pathType=Prefix
-        --set image.repository={{.TRINO_IMAGE_REPOSITORY}}
-        --set-string image.tag={{.COMMIT_SHA}}
 
   helm-down:
     desc: Uninstall Helm chart
@@ -120,4 +122,4 @@ tasks:
   hash-password:
     desc: Generate hash for a password
     cmds:
-      - echo '{{.CLI_ARGS}}' | htpasswd -inBC 10 'giga-admin'
+      - echo '{{.CLI_ARGS}}' | htpasswd -inBC 10 {{.TRINO_ADMIN_USER}}

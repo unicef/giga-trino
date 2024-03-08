@@ -4,11 +4,6 @@ stages:
     jobs:
       - template: create-config.yaml
 
-  - stage: BuildAndPush
-    displayName: Build and Push Trino
-    jobs:
-      - template: build-and-push.yaml
-
   - stage: Deploy
     displayName: Deploy Trino
     jobs:
