@@ -2,8 +2,13 @@
   "catalogs": [
     {
       "role": "admin",
-      "catalog": "(system|delta_lake)",
+      "catalog": "system",
       "allow": "all"
+    },
+    {
+      "role": "admin",
+      "catalog": "delta_lake",
+      "allow": "read-only"
     },
     {
       "group": "(giga-trino|giga-superset)",
