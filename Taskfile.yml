@@ -123,3 +123,8 @@ tasks:
     desc: Generate hash for a password
     cmds:
       - echo '{{.CLI_ARGS}}' | htpasswd -inBC 10 {{.TRINO_ADMIN_USER}}
+
+  trino:
+    desc: Spawn an interactive Trino shell
+    cmds:
+      - task exec -- -it trino trino --user {{.TRINO_ADMIN_USER}}

@@ -5,7 +5,7 @@ networks:
 
 services:
   trino:
-    image: trinodb/trino:438
+    image: trinodb/trino:440
     restart: unless-stopped
     env_file: .env
     init: true
