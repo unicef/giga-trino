@@ -36,6 +36,8 @@ jobs:
                   stringData:
                     password.db: |-
                       $(adminAuth)
+                      $(adminAuthGigaTrino)
+                      $(adminAuthGigaSuperset)
                     group.db: |-
                       admin:giga-admin,tmadmin
                       giga-trino:giga-trino

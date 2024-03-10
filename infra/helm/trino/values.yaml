@@ -52,7 +52,7 @@ server:
 
 accessControl:
   type: configmap
-  # refreshPeriod: 60s
+  refreshPeriod: 60s
   # # Rules file is mounted to /etc/trino/access-control
   configFile: "rules.json"
   rules:
@@ -181,9 +181,9 @@ auth:
   # passwordAuth: "username:encrypted-password-with-htpasswd"
   # or set the name of a secret containing this file in the password.db key
   passwordAuthSecret: "giga-trino-secrets"
-# Set users' groups
-# https://trino.io/docs/current/security/group-file.html#file-format
-# refreshPeriod: 5s
+  # Set users' groups
+  # https://trino.io/docs/current/security/group-file.html#file-format
+  refreshPeriod: 15s
 # groups: "group_name:user_1,user_2,user_3"
 
 serviceAccount:
@@ -326,8 +326,8 @@ kafka:
     # Custom kafka table descriptions that will be mounted in mountPath
     # testschema.json: |-
     #   {
-    #     "tableName": "testtable",
-    #     "schemaName": "testschema",
+  #     "tableName": "testtable",
+  #     "schemaName": "testschema",
   #     "topicName": "testtopic",
   #     "key": {
   #       "dataFormat": "json",
