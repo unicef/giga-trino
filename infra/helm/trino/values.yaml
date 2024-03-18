@@ -56,15 +56,7 @@ accessControl:
   # # Rules file is mounted to /etc/trino/access-control
   configFile: "rules.json"
   rules:
-    rules.json: |-
-      {
-        "catalogs": [
-          {
-            "catalog": "delta_lake",
-            "allow": "read-only"
-          }
-        ]
-      }
+    rules.json: ""
   # rules:
   #   rules.json: |-
   #     {
@@ -122,12 +114,7 @@ additionalExchangeManagerProperties: { }
 eventListenerProperties: { }
 
 additionalCatalogs:
-  delta_lake: |
-    connector.name=delta_lake
-    hive.metastore.uri=${ENV:HIVE_METASTORE_URI}
-    hive.metastore.username=giga-trino
-    hive.azure.wasb-storage-account=${ENV:AZURE_STORAGE_ACCOUNT_NAME}
-    hive.azure.wasb-access-key=${ENV:AZURE_STORAGE_ACCESS_KEY}
+  delta_lake: ""
 
 
 # Array of EnvVar (https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#envvar-v1-core)
@@ -323,9 +310,9 @@ worker:
 kafka:
   mountPath: "/etc/trino/schemas"
   tableDescriptions: { }
-    # Custom kafka table descriptions that will be mounted in mountPath
-    # testschema.json: |-
-    #   {
+  # Custom kafka table descriptions that will be mounted in mountPath
+  # testschema.json: |-
+  #   {
   #     "tableName": "testtable",
   #     "schemaName": "testschema",
   #     "topicName": "testtopic",
