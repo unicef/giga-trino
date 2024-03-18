@@ -25,3 +25,11 @@ jobs:
                   --set ingress.hosts[0].paths[0].path=/
                   --set ingress.hosts[0].paths[0].pathType=Prefix
                   --set envFrom[0].secretRef.name="giga-trino-secrets-$(deployEnv)"
+
+            - task: Kubernetes@1
+              displayName: Restart deployments
+              condition: eq(variables['Build.Reason'], 'Manual')
+              inputs:
+                namespace: $(kubernetesNamespace)
+                command: rollout
+                arguments: restart deployment
