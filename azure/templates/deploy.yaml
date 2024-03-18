@@ -16,6 +16,7 @@ jobs:
                 chartPath: "$(Build.SourcesDirectory)/infra/helm/trino"
                 releaseName: trino
                 namespace: $(kubernetesNamespace)
+                force: true
                 arguments: >
                   --set-string server.internalSharedSecret="$(sharedSecret)"
                   --set-file additionalCatalogs.delta_lake="$(Build.SourcesDirectory)/conf/catalog/delta_lake.properties"
