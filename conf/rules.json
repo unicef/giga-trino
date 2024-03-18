@@ -22,28 +22,46 @@
   "schemas": [
     {
       "role": "admin",
+      "catalog": ".*",
+      "schema": ".*",
       "owner": true
+    },
+    {
+      "role": "(giga-trino|giga-superset|giga-ingestion-portal)",
+      "catalog": "delta_lake",
+      "schema": ".*",
+      "owner": "false"
     }
   ],
   "tables": [
     {
       "role": "admin",
+      "catalog": ".*",
+      "schema": ".*",
+      "table": ".*",
       "privileges": ["SELECT", "OWNERSHIP", "GRANT_SELECT"]
     },
     {
       "group": "(giga-superset|giga-trino|giga-ingestion-portal)",
       "catalog": "delta_lake",
+      "schema": ".*",
+      "table": ".*",
       "privileges": ["SELECT", "GRANT_SELECT"]
     }
   ],
   "functions": [
     {
       "role": "admin",
+      "catalog": "delta_lake",
+      "schema": ".*",
+      "function": ".*",
       "privileges": ["EXECUTE", "GRANT_EXECUTE", "OWNERSHIP"]
     },
     {
       "group": "(giga-superset|giga-trino|giga-ingestion-portal)",
       "catalog": "delta_lake",
+      "schema": ".*",
+      "function": ".*",
       "privileges": ["EXECUTE", "GRANT_EXECUTE"]
     }
   ],
