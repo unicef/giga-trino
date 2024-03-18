@@ -43,4 +43,4 @@ jobs:
                       giga-superset:giga-superset
                     AZURE_STORAGE_ACCESS_KEY: "$(storageAccessKey)"
                     AZURE_STORAGE_ACCOUNT_NAME: "$(storageAccountName)"
-                    HIVE_METASTORE_URI: "hive-metastore.ictd-ooi-dagster-$(deployEnv).svc.cluster.local"
+                    HIVE_METASTORE_URI: "thrift://hive-metastore.ictd-ooi-dagster-$(deployEnv).svc.cluster.local:9083"

@@ -107,6 +107,7 @@ tasks:
         --set ingress.hosts[0].host={{.TRINO_INGRESS_HOST}}
         --set ingress.hosts[0].paths[0].path=/
         --set ingress.hosts[0].paths[0].pathType=Prefix
+        --set envFrom[0].secretRef.name=giga-trino-secrets
 
   helm-down:
     desc: Uninstall Helm chart
