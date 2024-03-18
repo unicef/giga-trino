@@ -11,7 +11,7 @@
       "allow": "read-only"
     },
     {
-      "group": "(giga-trino|giga-superset)",
+      "group": "(giga-trino|giga-superset|giga-ingestion-portal)",
       "catalog": "delta_lake",
       "allow": "read-only"
     },
@@ -31,7 +31,7 @@
       "privileges": ["SELECT", "OWNERSHIP", "GRANT_SELECT"]
     },
     {
-      "group": "(giga-superset|giga-trino)",
+      "group": "(giga-superset|giga-trino|giga-ingestion-portal)",
       "catalog": "delta_lake",
       "privileges": ["SELECT", "GRANT_SELECT"]
     }
@@ -42,9 +42,8 @@
       "privileges": ["EXECUTE", "GRANT_EXECUTE", "OWNERSHIP"]
     },
     {
-      "group": "(giga-superset|giga-trino)",
+      "group": "(giga-superset|giga-trino|giga-ingestion-portal)",
       "catalog": "delta_lake",
-      "function": "table_changes",
       "privileges": ["EXECUTE", "GRANT_EXECUTE"]
     }
   ],
@@ -54,7 +53,7 @@
       "allow": ["execute", "kill", "view"]
     },
     {
-      "group": "(giga-superset|giga-trino)",
+      "group": "(giga-superset|giga-trino|giga-ingestion-portal)",
       "allow": ["execute", "view"]
     }
   ]

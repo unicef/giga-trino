@@ -5,6 +5,7 @@ variables:
   adminAuth: $(ADMIN_AUTH)
   adminAuthGigaTrino: $(ADMIN_AUTH_GIGA_TRINO)
   adminAuthGigaSuperset: $(ADMIN_AUTH_GIGA_SUPERSET)
+  adminAuthGigaDataIngestion: $(ADMIN_AUTH_GIGA_DATA_INGESTION)
   deployEnv: $(DEPLOY_ENV)
   storageAccessKey: $(AZURE_STORAGE_ACCESS_KEY)
   storageAccountName: $(AZURE_STORAGE_ACCOUNT_NAME)

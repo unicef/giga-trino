@@ -38,6 +38,7 @@ jobs:
                       $(adminAuth)
                       $(adminAuthGigaTrino)
                       $(adminAuthGigaSuperset)
+                      $(adminAuthGigaDataIngestion)
                     group.db: |-
                       admin:giga-admin,tmadmin
                       giga-trino:giga-trino
