@@ -9,13 +9,6 @@ jobs:
             - checkout: self
 
             - task: Kubernetes@1
-              displayName: Delete configmap
-              inputs:
-                namespace: $(kubernetesNamespace)
-                command: delete
-                arguments: configmap giga-trino-configmap --ignore-not-found
-
-            - task: Kubernetes@1
               displayName: Create secret
               inputs:
                 namespace: $(kubernetesNamespace)

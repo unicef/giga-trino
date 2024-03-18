@@ -1,0 +1,14 @@
+jobs:
+  - deployment: Deploy
+    displayName: Uninstall all Helm charts
+    environment: $(kubernetesEnvironment)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: HelmDeploy@0
+              displayName: Helm uninstall Trino
+              inputs:
+                namespace: $(kubernetesNamespace)
+                command: uninstall
+                arguments: trino
