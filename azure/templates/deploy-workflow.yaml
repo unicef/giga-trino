@@ -4,11 +4,6 @@ stages:
     jobs:
       - template: create-config.yaml
 
-  - stage: Uninstall
-    displayName: Uninstall Trino
-    jobs:
-      - template: helm-uninstall.yaml
-
   - stage: Deploy
     displayName: Deploy Trino
     jobs:
