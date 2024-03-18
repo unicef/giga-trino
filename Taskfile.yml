@@ -101,6 +101,10 @@ tasks:
         --namespace giga-trino
         --set-string server.internalSharedSecret={{.SHARED_SECRET}}
         --set-file additionalCatalogs.delta_lake=./conf/catalog/delta_lake.properties
+        --set-file auth.groups=./conf/group.txt
+        --set accessControl.refreshPeriod=5s
+        --set auth.refreshPeriod=5s
+        --set auth.passwordAuthSecret=giga-trino-secrets
         --set ingress.enabled=true
         --set ingress.annotations=null
         --set ingress.hosts[0].host={{.TRINO_INGRESS_HOST}}

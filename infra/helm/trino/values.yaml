@@ -70,7 +70,7 @@ accessControl:
             "allow": "read-only"
           },
           {
-            "group": "(giga-trino|giga-superset|giga-ingestion-portal)",
+            "group": "giga-trino|giga-superset|giga-ingestion-portal",
             "catalog": "delta_lake",
             "allow": "read-only"
           },
@@ -86,7 +86,7 @@ accessControl:
             "owner": true
           },
           {
-            "role": "(giga-trino|giga-superset|giga-ingestion-portal)",
+            "role": "giga-trino|giga-superset|giga-ingestion-portal",
             "catalog": "delta_lake",
             "schema": ".*",
             "owner": "false"
@@ -101,7 +101,7 @@ accessControl:
             "privileges": ["SELECT", "OWNERSHIP", "GRANT_SELECT"]
           },
           {
-            "group": "(giga-superset|giga-trino|giga-ingestion-portal)",
+            "group": "giga-superset|giga-trino|giga-ingestion-portal",
             "catalog": "delta_lake",
             "schema": ".*",
             "table": ".*",
@@ -117,7 +117,7 @@ accessControl:
             "privileges": ["EXECUTE", "GRANT_EXECUTE", "OWNERSHIP"]
           },
           {
-            "group": "(giga-superset|giga-trino|giga-ingestion-portal)",
+            "group": "giga-superset|giga-trino|giga-ingestion-portal",
             "catalog": "delta_lake",
             "schema": ".*",
             "function": ".*",
@@ -130,11 +130,12 @@ accessControl:
             "allow": ["execute", "kill", "view"]
           },
           {
-            "group": "(giga-superset|giga-trino|giga-ingestion-portal)",
+            "group": "giga-superset|giga-trino|giga-ingestion-portal",
             "allow": ["execute", "view"]
           }
         ]
       }
+
 
 additionalNodeProperties: { }
 
@@ -200,11 +201,12 @@ auth:
   # https://trino.io/docs/current/security/password-file.html#file-format
   # passwordAuth: "username:encrypted-password-with-htpasswd"
   # or set the name of a secret containing this file in the password.db key
-  passwordAuthSecret: "giga-trino-secrets"
+  passwordAuthSecret: ""
   # Set users' groups
   # https://trino.io/docs/current/security/group-file.html#file-format
-  refreshPeriod: 15s
-# groups: "group_name:user_1,user_2,user_3"
+  refreshPeriod: 60s
+  groups: ""
+
 
 serviceAccount:
   # Specifies whether a service account should be created
