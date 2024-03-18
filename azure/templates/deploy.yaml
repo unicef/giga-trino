@@ -24,3 +24,4 @@ jobs:
                   --set ingress.hosts[0].host="io-trino-$(deployEnv).unitst.org"
                   --set ingress.hosts[0].paths[0].path=/
                   --set ingress.hosts[0].paths[0].pathType=Prefix
+                  --set envFrom[0].secretRef.name="giga-trino-secrets-$(deployEnv)"
