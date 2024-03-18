@@ -56,52 +56,85 @@ accessControl:
   # # Rules file is mounted to /etc/trino/access-control
   configFile: "rules.json"
   rules:
-    rules.json: ""
-  # rules:
-  #   rules.json: |-
-  #     {
-  #       "catalogs": [
-  #         {
-  #           "user": "admin",
-  #           "catalog": "(mysql|system)",
-  #           "allow": "all"
-  #         },
-  #         {
-  #           "group": "finance|human_resources",
-  #           "catalog": "postgres",
-  #           "allow": true
-  #         },
-  #         {
-  #           "catalog": "hive",
-  #           "allow": "all"
-  #         },
-  #         {
-  #           "user": "alice",
-  #           "catalog": "postgresql",
-  #           "allow": "read-only"
-  #         },
-  #         {
-  #           "catalog": "system",
-  #           "allow": "none"
-  #         }
-  #       ],
-  #       "schemas": [
-  #         {
-  #           "user": "admin",
-  #           "schema": ".*",
-#           "owner": true
-#         },
-#         {
-#           "user": "guest",
-#           "owner": false
-#         },
-#         {
-#           "catalog": "default",
-#           "schema": "default",
-#           "owner": true
-#         }
-#       ]
-#     }
+    rules.json: |-
+      {
+        "catalogs": [
+          {
+            "role": "admin",
+            "catalog": "system",
+            "allow": "all"
+          },
+          {
+            "role": "admin",
+            "catalog": "delta_lake",
+            "allow": "read-only"
+          },
+          {
+            "group": "(giga-trino|giga-superset|giga-ingestion-portal)",
+            "catalog": "delta_lake",
+            "allow": "read-only"
+          },
+          {
+            "allow": "none"
+          }
+        ],
+        "schemas": [
+          {
+            "role": "admin",
+            "catalog": ".*",
+            "schema": ".*",
+            "owner": true
+          },
+          {
+            "role": "(giga-trino|giga-superset|giga-ingestion-portal)",
+            "catalog": "delta_lake",
+            "schema": ".*",
+            "owner": "false"
+          }
+        ],
+        "tables": [
+          {
+            "role": "admin",
+            "catalog": ".*",
+            "schema": ".*",
+            "table": ".*",
+            "privileges": ["SELECT", "OWNERSHIP", "GRANT_SELECT"]
+          },
+          {
+            "group": "(giga-superset|giga-trino|giga-ingestion-portal)",
+            "catalog": "delta_lake",
+            "schema": ".*",
+            "table": ".*",
+            "privileges": ["SELECT", "GRANT_SELECT"]
+          }
+        ],
+        "functions": [
+          {
+            "role": "admin",
+            "catalog": "delta_lake",
+            "schema": ".*",
+            "function": ".*",
+            "privileges": ["EXECUTE", "GRANT_EXECUTE", "OWNERSHIP"]
+          },
+          {
+            "group": "(giga-superset|giga-trino|giga-ingestion-portal)",
+            "catalog": "delta_lake",
+            "schema": ".*",
+            "function": ".*",
+            "privileges": ["EXECUTE", "GRANT_EXECUTE"]
+          }
+        ],
+        "queries": [
+          {
+            "role": "admin",
+            "allow": ["execute", "kill", "view"]
+          },
+          {
+            "group": "(giga-superset|giga-trino|giga-ingestion-portal)",
+            "allow": ["execute", "view"]
+          }
+        ]
+      }
 
 additionalNodeProperties: { }
 

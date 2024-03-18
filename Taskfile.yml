@@ -100,7 +100,6 @@ tasks:
         helm upgrade --install trino ./infra/helm/trino
         --namespace giga-trino
         --set-string server.internalSharedSecret={{.SHARED_SECRET}}
-        --set-file 'accessControl.rules.rules\.json'=./conf/rules.json
         --set-file additionalCatalogs.delta_lake=./conf/catalog/delta_lake.properties
         --set ingress.enabled=true
         --set ingress.annotations=null
