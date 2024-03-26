@@ -11,6 +11,11 @@
       "allow": "read-only"
     },
     {
+      "group": "admin",
+      "catalog": "delta_lake",
+      "allow": "read-only"
+    },
+    {
       "group": "giga-trino|giga-superset|giga-ingestion-portal",
       "catalog": "delta_lake",
       "allow": "read-only"
@@ -19,6 +24,12 @@
   "schemas": [
     {
       "role": "admin",
+      "catalog": ".*",
+      "schema": ".*",
+      "owner": true
+    },
+    {
+      "group": "admin",
       "catalog": ".*",
       "schema": ".*",
       "owner": true
@@ -33,6 +44,13 @@
   "tables": [
     {
       "role": "admin",
+      "catalog": ".*",
+      "schema": ".*",
+      "table": ".*",
+      "privileges": ["SELECT", "OWNERSHIP", "GRANT_SELECT"]
+    },
+    {
+      "group": "admin",
       "catalog": ".*",
       "schema": ".*",
       "table": ".*",
@@ -55,6 +73,13 @@
       "privileges": ["EXECUTE", "GRANT_EXECUTE", "OWNERSHIP"]
     },
     {
+      "group": "admin",
+      "catalog": "delta_lake",
+      "schema": ".*",
+      "function": ".*",
+      "privileges": ["EXECUTE", "GRANT_EXECUTE", "OWNERSHIP"]
+    },
+    {
       "group": "giga-superset|giga-trino|giga-ingestion-portal",
       "catalog": "delta_lake",
       "schema": ".*",
@@ -65,6 +90,10 @@
   "queries": [
     {
       "role": "admin",
+      "allow": ["execute", "kill", "view"]
+    },
+    {
+      "group": "admin",
       "allow": ["execute", "kill", "view"]
     },
     {

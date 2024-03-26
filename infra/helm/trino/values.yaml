@@ -70,17 +70,25 @@ accessControl:
             "allow": "read-only"
           },
           {
-            "group": "giga-trino|giga-superset|giga-ingestion-portal",
+            "group": "admin",
             "catalog": "delta_lake",
             "allow": "read-only"
           },
           {
-            "allow": "none"
+            "group": "giga-trino|giga-superset|giga-ingestion-portal",
+            "catalog": "delta_lake",
+            "allow": "read-only"
           }
         ],
         "schemas": [
           {
             "role": "admin",
+            "catalog": ".*",
+            "schema": ".*",
+            "owner": true
+          },
+          {
+            "group": "admin",
             "catalog": ".*",
             "schema": ".*",
             "owner": true
@@ -95,6 +103,13 @@ accessControl:
         "tables": [
           {
             "role": "admin",
+            "catalog": ".*",
+            "schema": ".*",
+            "table": ".*",
+            "privileges": ["SELECT", "OWNERSHIP", "GRANT_SELECT"]
+          },
+          {
+            "group": "admin",
             "catalog": ".*",
             "schema": ".*",
             "table": ".*",
@@ -117,6 +132,13 @@ accessControl:
             "privileges": ["EXECUTE", "GRANT_EXECUTE", "OWNERSHIP"]
           },
           {
+            "group": "admin",
+            "catalog": "delta_lake",
+            "schema": ".*",
+            "function": ".*",
+            "privileges": ["EXECUTE", "GRANT_EXECUTE", "OWNERSHIP"]
+          },
+          {
             "group": "giga-superset|giga-trino|giga-ingestion-portal",
             "catalog": "delta_lake",
             "schema": ".*",
@@ -127,6 +149,10 @@ accessControl:
         "queries": [
           {
             "role": "admin",
+            "allow": ["execute", "kill", "view"]
+          },
+          {
+            "group": "admin",
             "allow": ["execute", "kill", "view"]
           },
           {
