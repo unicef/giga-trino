@@ -31,7 +31,7 @@ jobs:
                       $(adminAuthGigaSuperset)
                       $(adminAuthGigaDataIngestion)
                     group.db: |-
-                      admin:giga-admin,tmadmin
+                      admin:giga-admin,tmadmin,admin
                       giga-trino:giga-trino
                       giga-superset:giga-superset
                       giga-ingestion-portal:giga-ingestion-portal
