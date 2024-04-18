@@ -11,4 +11,5 @@ variables:
   storageAccountName: $(AZURE_STORAGE_ACCOUNT_NAME)
   containerRegistryServiceConnection: $(ACR_SERVICE_CONNECTION)
   containerRegistryName: $(ACR_NAME)
+  ingressHost: $(INGRESS_HOST)
   system.debug: true
