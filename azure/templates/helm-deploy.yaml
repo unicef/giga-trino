@@ -10,7 +10,7 @@ jobs:
 
             - task: HelmDeploy@0
               displayName: Helm deploy dev-config Trino
-              condition: (variables.environment, 'dev')
+              condition: eq(variables.environment, 'dev')
               inputs:
                 command: upgrade
                 chartType: FilePath
