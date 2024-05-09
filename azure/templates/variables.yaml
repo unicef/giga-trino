@@ -12,4 +12,7 @@ variables:
   containerRegistryServiceConnection: $(ACR_SERVICE_CONNECTION)
   containerRegistryName: $(ACR_NAME)
   ingressHost: $(INGRESS_HOST)
+  devPrjRazorDbConnectionUrl: $(DEV_OIA_PRJRAZORDB_CONNECTION_URL)
+  devPrjRazorDbUser: $(DEV_OIA_PRJRAZORDB_USER)
+  devPrjRazorDbPassword: $(DEV_OIA_PRJRAZORDB)
   system.debug: true
