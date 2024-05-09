@@ -19,3 +19,4 @@ services:
       - ./conf/rules.json:/etc/trino/rules.json
       - ./conf/group.txt:/etc/trino/group.txt
       - ./conf/catalog/delta_lake.properties:/etc/trino/catalog/delta_lake.properties
+      - ./conf/catalog/pg_dev_oia_prjrazordb.properties:/etc/trino/catalog/pg_dev_oia_prjrazordb.properties
