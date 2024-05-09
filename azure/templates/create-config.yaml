@@ -45,3 +45,6 @@ jobs:
                     AZURE_STORAGE_ACCESS_KEY: "$(storageAccessKey)"
                     AZURE_STORAGE_ACCOUNT_NAME: "$(storageAccountName)"
                     HIVE_METASTORE_URI: "thrift://hive-metastore.ictd-ooi-dagster-$(deployEnv).svc.cluster.local:9083"
+                    DEV_OIA_PRJRAZORDB_USER: "$(devPrjRazorDbUser)"
+                    DEV_OIA_PRJRAZORDB_PASSWORD: "$(devPrjRazorDbPassword)"
+                    DEV_OIA_PRJRAZORDB_CONNECTION_URL: "$(devPrjRazorDbConnectionUrl)"
