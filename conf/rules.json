@@ -2,11 +2,6 @@
   "catalogs": [
     {
       "group": "admin",
-      "catalog": "delta_lake",
-      "allow": "read-only"
-    },
-    {
-      "group": "admin",
       "catalog": ".*",
       "allow": "all"
     },
