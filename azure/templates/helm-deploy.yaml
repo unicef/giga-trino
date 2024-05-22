@@ -72,3 +72,10 @@ jobs:
                   --set ingress.annotations."appgw\.ingress\.kubernetes\.io/appgw-ssl-certificate"=kv-cert-gigaglobal
                   --set envFrom[0].secretRef.name="giga-trino-secrets-$(deployEnv)"
                   --set auth.passwordAuthSecret="giga-trino-secrets-$(deployEnv)"
+
+            - task: Kubernetes@1
+              displayName: Force restart Trino
+              inputs:
+                namespace: $(kubernetesNamespace)
+                command: rollout
+                arguments: restart deployment
