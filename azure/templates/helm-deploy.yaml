@@ -9,7 +9,7 @@ jobs:
             - checkout: self
 
             - task: HelmDeploy@0
-              displayName: Helm deploy dev-config Trino
+              displayName: Helm deploy Trino dev
               condition: eq(variables.environment, 'dev')
               inputs:
                 command: upgrade
@@ -30,7 +30,7 @@ jobs:
                   --set auth.passwordAuthSecret="giga-trino-secrets-$(deployEnv)"
 
             - task: HelmDeploy@0
-              displayName: Helm deploy staging-config Trino
+              displayName: Helm deploy Trino stg
               condition: eq(variables.environment, 'stg')
               inputs:
                 command: upgrade
@@ -52,7 +52,7 @@ jobs:
                   --set auth.passwordAuthSecret="giga-trino-secrets-$(deployEnv)"
 
             - task: HelmDeploy@0
-              displayName: Helm deploy production-config Trino
+              displayName: Helm deploy Trino prd
               condition: eq(variables.environment, 'prd')
               inputs:
                 command: upgrade
@@ -64,6 +64,7 @@ jobs:
                 arguments: >
                   --set-string server.internalSharedSecret="$(sharedSecret)"
                   --set-file additionalCatalogs.delta_lake="$(Build.SourcesDirectory)/conf/catalog/delta_lake.properties"
+                  --set-file additionalCatalogs.pg_dev_oia_prjrazordb="$(Build.SourcesDirectory)/conf/catalog/pg_dev_oia_prjrazordb.properties"
                   --set-file auth.groups="$(Build.SourcesDirectory)/conf/group.txt"
                   --set ingress.enabled=true
                   --set ingress.hosts[0].host="$(ingressHost)"
