@@ -208,6 +208,7 @@ eventListenerProperties: { }
 additionalCatalogs:
   delta_lake: ""
   pg_dev_oia_prjrazordb: ""
+  gigameter_production_db: ""
 
 
 # Array of EnvVar (https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#envvar-v1-core)
