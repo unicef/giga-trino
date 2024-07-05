@@ -208,6 +208,7 @@ eventListenerProperties: { }
 additionalCatalogs:
   delta_lake: ""
   pg_dev_oia_prjrazordb: ""
+  gigamaps_production_db: ""
   gigameter_production_db: ""
 
 
