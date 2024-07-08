@@ -55,145 +55,145 @@ accessControl:
   refreshPeriod: 60s
   # # Rules file is mounted to /etc/trino/access-control
   configFile: "rules.json"
-  rules:
-    rules.json: |-
-      {
-        "catalogs": [
-          {
-            "group": "admin",
-            "catalog": ".*",
-            "allow": "all"
-          },
-          {
-            "group": "giga-superset",
-            "catalog": "system",
-            "allow": "read-only"
-          },
-          {
-            "group": "giga-trino|giga-superset|giga-ingestion-portal",
-            "catalog": "delta_lake",
-            "allow": "read-only"
-          }
-        ],
-        "schemas": [
-          {
-            "group": "admin",
-            "catalog": ".*",
-            "schema": ".*",
-            "owner": true
-          },
-          {
-            "group": "giga-trino|giga-superset|giga-ingestion-portal",
-            "catalog": "delta_lake",
-            "schema": ".*",
-            "owner": "false"
-          },
-          {
-            "group": "giga-superset",
-            "catalog": "delta_lake",
-            "schema": "superset",
-            "owner": true
-          },
-          {
-            "group": "giga-superset",
-            "catalog": "system",
-            "schema": ".*"
-          }
-        ],
-        "tables": [
-          {
-            "group": "admin",
-            "catalog": ".*",
-            "schema": ".*",
-            "table": ".*",
-            "privileges": ["SELECT", "OWNERSHIP", "GRANT_SELECT"]
-          },
-          {
-            "group": "giga-superset",
-            "catalog": "delta_lake",
-            "schema": "superset",
-            "table": ".*",
-            "privileges": [
-              "SELECT",
-              "INSERT",
-              "DELETE",
-              "UPDATE",
-              "OWNERSHIP",
-              "GRANT_SELECT"
-            ]
-          },
-          {
-            "group": "giga-superset",
-            "catalog": "system",
-            "schema": "metadata",
-            "table": ".*",
-            "privileges": ["SELECT"]
-          },
-          {
-            "group": "giga-superset|giga-trino|giga-ingestion-portal",
-            "catalog": "delta_lake",
-            "schema": ".*",
-            "table": ".*",
-            "privileges": ["SELECT", "GRANT_SELECT"]
-          }
-        ],
-        "functions": [
-          {
-            "group": "admin",
-            "catalog": ".*",
-            "schema": ".*",
-            "function": ".*",
-            "privileges": ["EXECUTE", "GRANT_EXECUTE", "OWNERSHIP"]
-          },
-          {
-            "group": "giga-superset|giga-trino|giga-ingestion-portal",
-            "catalog": "delta_lake",
-            "schema": ".*",
-            "function": ".*",
-            "privileges": ["EXECUTE", "GRANT_EXECUTE"]
-          },
-          {
-            "group": "giga-superset",
-            "catalog": "system",
-            "schema": "metadata",
-            "function": ".*",
-            "privileges": ["EXECUTE"]
-          }
-        ],
-        "procedures": [
-          {
-            "group": "admin",
-            "catalog": ".*",
-            "schema": ".*",
-            "procedure": ".*",
-            "privileges": ["EXECUTE", "GRANT_EXECUTE"]
-          },
-          {
-            "group": "giga-superset",
-            "catalog": "delta_lake",
-            "schema": "superset",
-            "procedure": ".*",
-            "privileges": ["EXECUTE", "GRANT_EXECUTE"]
-          },
-          {
-            "group": "giga-superset",
-            "catalog": "system",
-            "schema": "metadata",
-            "procedure": ".*",
-            "privileges": ["EXECUTE"]
-          }
-        ],
-        "queries": [
-          {
-            "group": "admin",
-            "allow": ["execute", "kill", "view"]
-          },
-          {
-            "group": "giga-superset|giga-trino|giga-ingestion-portal",
-            "allow": ["execute", "view"]
-          }
-        ]
-      }
+#  rules:
+#    rules.json: |-
+#      {
+#        "catalogs": [
+#          {
+#            "group": "admin",
+#            "catalog": ".*",
+#            "allow": "all"
+#          },
+#          {
+#            "group": "giga-superset",
+#            "catalog": "system",
+#            "allow": "read-only"
+#          },
+#          {
+#            "group": "giga-trino|giga-superset|giga-ingestion-portal",
+#            "catalog": "delta_lake",
+#            "allow": "read-only"
+#          }
+#        ],
+#        "schemas": [
+#          {
+#            "group": "admin",
+#            "catalog": ".*",
+#            "schema": ".*",
+#            "owner": true
+#          },
+#          {
+#            "group": "giga-trino|giga-superset|giga-ingestion-portal",
+#            "catalog": "delta_lake",
+#            "schema": ".*",
+#            "owner": "false"
+#          },
+#          {
+#            "group": "giga-superset",
+#            "catalog": "delta_lake",
+#            "schema": "superset",
+#            "owner": true
+#          },
+#          {
+#            "group": "giga-superset",
+#            "catalog": "system",
+#            "schema": ".*"
+#          }
+#        ],
+#        "tables": [
+#          {
+#            "group": "admin",
+#            "catalog": ".*",
+#            "schema": ".*",
+#            "table": ".*",
+#            "privileges": ["SELECT", "OWNERSHIP", "GRANT_SELECT"]
+#          },
+#          {
+#            "group": "giga-superset",
+#            "catalog": "delta_lake",
+#            "schema": "superset",
+#            "table": ".*",
+#            "privileges": [
+#              "SELECT",
+#              "INSERT",
+#              "DELETE",
+#              "UPDATE",
+#              "OWNERSHIP",
+#              "GRANT_SELECT"
+#            ]
+#          },
+#          {
+#            "group": "giga-superset",
+#            "catalog": "system",
+#            "schema": "metadata",
+#            "table": ".*",
+#            "privileges": ["SELECT"]
+#          },
+#          {
+#            "group": "giga-superset|giga-trino|giga-ingestion-portal",
+#            "catalog": "delta_lake",
+#            "schema": ".*",
+#            "table": ".*",
+#            "privileges": ["SELECT", "GRANT_SELECT"]
+#          }
+#        ],
+#        "functions": [
+#          {
+#            "group": "admin",
+#            "catalog": ".*",
+#            "schema": ".*",
+#            "function": ".*",
+#            "privileges": ["EXECUTE", "GRANT_EXECUTE", "OWNERSHIP"]
+#          },
+#          {
+#            "group": "giga-superset|giga-trino|giga-ingestion-portal",
+#            "catalog": "delta_lake",
+#            "schema": ".*",
+#            "function": ".*",
+#            "privileges": ["EXECUTE", "GRANT_EXECUTE"]
+#          },
+#          {
+#            "group": "giga-superset",
+#            "catalog": "system",
+#            "schema": "metadata",
+#            "function": ".*",
+#            "privileges": ["EXECUTE"]
+#          }
+#        ],
+#        "procedures": [
+#          {
+#            "group": "admin",
+#            "catalog": ".*",
+#            "schema": ".*",
+#            "procedure": ".*",
+#            "privileges": ["EXECUTE", "GRANT_EXECUTE"]
+#          },
+#          {
+#            "group": "giga-superset",
+#            "catalog": "delta_lake",
+#            "schema": "superset",
+#            "procedure": ".*",
+#            "privileges": ["EXECUTE", "GRANT_EXECUTE"]
+#          },
+#          {
+#            "group": "giga-superset",
+#            "catalog": "system",
+#            "schema": "metadata",
+#            "procedure": ".*",
+#            "privileges": ["EXECUTE"]
+#          }
+#        ],
+#        "queries": [
+#          {
+#            "group": "admin",
+#            "allow": ["execute", "kill", "view"]
+#          },
+#          {
+#            "group": "giga-superset|giga-trino|giga-ingestion-portal",
+#            "allow": ["execute", "view"]
+#          }
+#        ]
+#      }
 
 additionalNodeProperties: { }
 

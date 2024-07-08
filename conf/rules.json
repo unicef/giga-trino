@@ -12,7 +12,7 @@
     },
     {
       "group": "giga-trino|giga-superset|giga-ingestion-portal",
-      "catalog": "delta_lake",
+      "catalog": "(^delta_lake$|giga)",
       "allow": "read-only"
     }
   ],
