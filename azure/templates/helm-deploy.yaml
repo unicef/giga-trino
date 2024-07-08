@@ -40,6 +40,7 @@ jobs:
                 namespace: $(kubernetesNamespace)
                 force: true
                 arguments: >
+                  --timeout 15m
                   --set-string server.internalSharedSecret="$(sharedSecret)"
                   --set-file additionalCatalogs.delta_lake="$(Build.SourcesDirectory)/conf/catalog/delta_lake.properties"
                   --set-file additionalCatalogs.pg_dev_oia_prjrazordb="$(Build.SourcesDirectory)/conf/catalog/pg_dev_oia_prjrazordb.properties"
