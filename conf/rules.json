@@ -7,11 +7,11 @@
     },
     {
       "group": "giga-superset",
-      "catalog": "system",
+      "catalog": ".*",
       "allow": "read-only"
     },
     {
-      "group": "giga-trino|giga-superset|giga-ingestion-portal",
+      "group": "giga-trino|giga-ingestion-portal",
       "catalog": "delta_lake",
       "allow": "read-only"
     }
