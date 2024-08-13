@@ -47,7 +47,14 @@
       "catalog": ".*",
       "schema": ".*",
       "table": ".*",
-      "privileges": ["SELECT", "OWNERSHIP", "GRANT_SELECT"]
+      "privileges": [
+        "SELECT",
+        "INSERT",
+        "DELETE",
+        "UPDATE",
+        "OWNERSHIP",
+        "GRANT_SELECT"
+      ]
     },
     {
       "group": "giga-superset",
