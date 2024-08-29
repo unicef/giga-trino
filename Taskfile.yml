@@ -130,6 +130,13 @@ tasks:
       - echo '{{.CLI_ARGS}}' | htpasswd -inBC 10 {{.TRINO_ADMIN_USER}}
 
   trino:
-    desc: Spawn an interactive Trino shell
-    cmds:
-      - task exec -- -it trino trino --user {{.TRINO_ADMIN_USER}}
+    desc: Spawn an interactive Trino shell connecting to your local instance
+    cmd: task exec -- -it trino trino --user {{.TRINO_ADMIN_USER}}
+
+  trino-dev:
+    desc: Spawn an interactive Trino shell connecting to the DEV instance
+    cmd: docker run --rm -it --entrypoint trino trinodb/trino:440 --server https://io-trino-dev.unitst.org --user tmadmin --password
+
+  trino-stg:
+    desc: Spawn an interactive Trino shell connecting to the STG instance
+    cmd: docker run --rm -it --entrypoint trino trinodb/trino:440 --server https://io-trino-stg.unitst.org --user giga-admin --password
