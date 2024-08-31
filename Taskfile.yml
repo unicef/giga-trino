@@ -101,7 +101,9 @@ tasks:
         --namespace giga-trino
         --set-string server.internalSharedSecret={{.SHARED_SECRET}}
         --set-file additionalCatalogs.delta_lake=./conf/catalog/delta_lake.properties
-        --set-file additionalCatalogs.pg_dev_oia_prjrazordb=./conf/catalog/pg_dev_oia_prjrazordb.properties
+        --set additionalCatalogs.pg_dev_oia_prjrazordb=null
+        --set additionalCatalogs.gigamaps_production_db=null
+        --set additionalCatalogs.gigameter_production_db=null
         --set-file auth.groups=./conf/group.txt
         --set accessControl.refreshPeriod=5s
         --set auth.refreshPeriod=5s
