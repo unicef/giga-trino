@@ -45,7 +45,7 @@ server:
     web-ui.enabled=true
     web-ui.authentication.type=FORM
   autoscaling:
-    enabled: false
+    enabled: true
     maxReplicas: 5
     targetCPUUtilizationPercentage: 50
   internalSharedSecret: ""
