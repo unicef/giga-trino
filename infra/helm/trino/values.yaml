@@ -46,8 +46,8 @@ server:
     web-ui.authentication.type=FORM
   autoscaling:
     enabled: true
-    maxReplicas: 5
-    targetCPUUtilizationPercentage: 50
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 70
   internalSharedSecret: ""
 
 accessControl:
@@ -301,17 +301,17 @@ coordinator:
 
   additionalExposedPorts: { }
 
-  resources: { }
+  resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+    limits:
+      cpu: 2000m
+      memory: 3200Mi
+    requests:
+      cpu: 300m
+      memory: 512Mi
 
   livenessProbe: { }
   # initialDelaySeconds: 20
@@ -361,17 +361,17 @@ worker:
 
   additionalExposedPorts: { }
 
-  resources: { }
+  resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+    limits:
+      cpu: 3000m
+      memory: 8192Mi
+    requests:
+      cpu: 300m
+      memory: 1512Mi
 
   livenessProbe: { }
   # initialDelaySeconds: 20
@@ -390,7 +390,20 @@ worker:
 
   tolerations: [ ]
 
-  affinity: { }
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - trino
+              - key: component
+                operator: In
+                values:
+                  - worker
+          topologyKey: kubernetes.io/hostname
 
   additionalConfigFiles: { }
 
