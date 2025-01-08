@@ -355,7 +355,7 @@ worker:
     memory:
       heapHeadroomPerNode: ""
     query:
-      maxMemoryPerNode: "1GB"
+      maxMemoryPerNode: "2GB"
 
   additionalJVMConfig: { }
 
