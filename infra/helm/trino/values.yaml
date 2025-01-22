@@ -13,7 +13,7 @@ imagePullSecrets:
   - name: registry-credentials
 
 server:
-  workers: 3
+  workers: 2
   node:
     environment: production
     dataDir: /data/trino
@@ -34,7 +34,7 @@ server:
     # For more info: https://trino.io/docs/current/security/authentication-types.html
     authenticationType: "PASSWORD"
     query:
-      maxMemory: "4GB"
+      maxMemory: "8GB"
   exchangeManager:
     name: "filesystem"
     baseDir: "/tmp/trino-local-file-system-exchange-manager"
@@ -293,9 +293,9 @@ coordinator:
 
   config:
     memory:
-      heapHeadroomPerNode: ""
+      heapHeadroomPerNode: "1GB"
     query:
-      maxMemoryPerNode: "1GB"
+      maxMemoryPerNode: "2GB"
 
   additionalJVMConfig: { }
 
@@ -308,10 +308,10 @@ coordinator:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
     limits:
       cpu: 2000m
-      memory: 3200Mi
+      memory: 6Gi
     requests:
-      cpu: 300m
-      memory: 512Mi
+      cpu: 200m
+      memory: 3Gi
 
   livenessProbe: { }
   # initialDelaySeconds: 20
@@ -345,7 +345,7 @@ coordinator:
 
 worker:
   jvm:
-    maxHeapSize: "4G"
+    maxHeapSize: "6G"
     gcMethod:
       type: "UseG1GC"
       g1:
@@ -353,9 +353,9 @@ worker:
 
   config:
     memory:
-      heapHeadroomPerNode: ""
+      heapHeadroomPerNode: "1GB"
     query:
-      maxMemoryPerNode: "7GB"
+      maxMemoryPerNode: "4GB"
 
   additionalJVMConfig: { }
 
@@ -367,11 +367,11 @@ worker:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
     limits:
-      cpu: 3000m
-      memory: 8192Mi
+      cpu: 4000m
+      memory: 9Gi
     requests:
-      cpu: 300m
-      memory: 1512Mi
+      cpu: 1000m
+      memory: 6Gi
 
   livenessProbe: { }
   # initialDelaySeconds: 20
