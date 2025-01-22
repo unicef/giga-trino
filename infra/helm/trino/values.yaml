@@ -7,7 +7,7 @@ image:
   pullPolicy: Always
   # Overrides the image tag whose default is the chart version.
   # Same value as Chart.yaml#appVersion
-  tag: "438"
+  tag: "445"
 
 imagePullSecrets:
   - name: registry-credentials
