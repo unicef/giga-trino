@@ -6,12 +6,12 @@
       "allow": "all"
     },
     {
-      "group": "giga-superset",
+      "group": "giga-superset|giga-trino",
       "catalog": ".*",
       "allow": "read-only"
     },
     {
-      "group": "giga-trino|giga-ingestion-portal",
+      "group": "giga-ingestion-portal",
       "catalog": "delta_lake",
       "allow": "read-only"
     }
