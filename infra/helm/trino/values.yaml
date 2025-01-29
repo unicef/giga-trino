@@ -71,7 +71,7 @@ accessControl:
           },
           {
             "group": "giga-trino|giga-ingestion-portal",
-            "catalog": "delta_lake",
+            "catalog": ".*",
             "allow": "read-only"
           }
         ],
@@ -84,7 +84,7 @@ accessControl:
           },
           {
             "group": "giga-trino|giga-superset|giga-ingestion-portal",
-            "catalog": "delta_lake",
+            "catalog": ".*",
             "schema": ".*",
             "owner": "false"
           },
@@ -131,7 +131,7 @@ accessControl:
           },
           {
             "group": "giga-superset|giga-trino|giga-ingestion-portal",
-            "catalog": "delta_lake",
+            "catalog": ".*",
             "schema": ".*",
             "table": ".*",
             "privileges": ["SELECT", "GRANT_SELECT"]
@@ -147,7 +147,7 @@ accessControl:
           },
           {
             "group": "giga-superset|giga-trino|giga-ingestion-portal",
-            "catalog": "delta_lake",
+            "catalog": ".*",
             "schema": ".*",
             "function": ".*",
             "privileges": ["EXECUTE", "GRANT_EXECUTE"]
