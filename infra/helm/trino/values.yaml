@@ -13,7 +13,7 @@ imagePullSecrets:
   - name: registry-credentials
 
 server:
-  workers: 2
+  workers: 3
   node:
     environment: production
     dataDir: /data/trino
@@ -45,7 +45,7 @@ server:
     web-ui.enabled=true
     web-ui.authentication.type=FORM
   autoscaling:
-    enabled: true
+    enabled: false
     maxReplicas: 4
     targetCPUUtilizationPercentage: 70
   internalSharedSecret: ""
@@ -367,10 +367,10 @@ worker:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
     limits:
-      cpu: 4000m
+      cpu: 2.0
       memory: 9Gi
     requests:
-      cpu: 1000m
+      cpu: 500m
       memory: 6Gi
 
   livenessProbe: { }
