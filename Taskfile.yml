@@ -104,6 +104,7 @@ tasks:
         --set additionalCatalogs.pg_dev_oia_prjrazordb=null
         --set additionalCatalogs.gigamaps_production_db=null
         --set additionalCatalogs.gigameter_production_db=null
+        --set additionalCatalogs.ingestionportal_production_db=null
         --set-file auth.groups=./conf/group.txt
         --set accessControl.refreshPeriod=5s
         --set auth.refreshPeriod=5s

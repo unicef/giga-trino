@@ -21,4 +21,7 @@ variables:
   gigameterProductionDbConnectionUrl: $(GIGAMETER_PRODUCTION_DB_CONNECTION_URL)
   gigameterProductionUser: $(GIGAMETER_PRODUCTION_USER)
   gigameterProductionPassword: $(GIGAMETER_PRODUCTION_PASSWORD)
+  ingestionportalProductionDbConnectionUrl: $(INGESTIONPORTAL_PRODUCTION_DB_CONNECTION_URL)
+  ingestionportalProductionUser: $(INGESTIONPORTAL_PRODUCTION_USER)
+  ingestionportalProductionPassword: $(INGESTIONPORTAL_PRODUCTION_PASSWORD)
   system.debug: true

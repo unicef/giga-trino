@@ -54,3 +54,6 @@ jobs:
                     GIGAMETER_PRODUCTION_DB_CONNECTION_URL: "$(gigameterProductionDbConnectionUrl)"
                     GIGAMETER_PRODUCTION_USER: "$(gigameterProductionUser)"
                     GIGAMETER_PRODUCTION_PASSWORD: "$(gigameterProductionPassword)"
+                    INGESTIONPORTAL_PRODUCTION_DB_CONNECTION_URL: "$(ingestionportalProductionDbConnectionUrl)"
+                    INGESTIONPORTAL_PRODUCTION_USER: "$(ingestionportalProductionUser)"
+                    INGESTIONPORTAL_PRODUCTION_PASSWORD: "$(ingestionportalProductionPassword)"
