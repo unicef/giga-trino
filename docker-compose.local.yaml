@@ -1,0 +1,39 @@
+# Docker Compose for Local Development
+# Uses hive-metastore and azurite from giga-dagster on the shared giga-dataops network.
+# Ingestion portal catalog connects to the db service in giga-data-ingestion.
+#
+# Prerequisites:
+#   1. Create the external network:
+#      docker compose -f docker-compose-network.yaml up -d
+#   2. Start giga-dagster local services (provides hive-metastore + azurite):
+#      cd ../giga-dagster && docker compose -f docker-compose.local.yaml up -d
+#   3. Start giga-data-ingestion local services (provides ingestion portal db):
+#      cd ../giga-data-ingestion && docker compose up -d
+#   4. Copy env file:
+#      cp .env.local .env
+#
+# Usage:
+#   docker compose -f docker-compose.local.yaml up -d
+
+networks:
+  default:
+    name: giga-dataops
+    external: true
+
+services:
+  trino:
+    image: trinodb/trino:445
+    restart: unless-stopped
+    env_file: .env
+    init: true
+    ports:
+      - "8040:8080"
+    volumes:
+      - ./conf/config.properties:/etc/trino/config.properties
+      - ./conf/catalog.properties:/etc/trino/catalog.properties
+      - ./conf/access-control.properties:/etc/trino/access-control.properties
+      - ./conf/group-provider.properties:/etc/trino/group-provider.properties
+      - ./conf/rules.json:/etc/trino/rules.json
+      - ./conf/group.txt:/etc/trino/group.txt
+      - ./conf/catalog/delta_lake.properties:/etc/trino/catalog/delta_lake.properties
+      - ./conf/catalog/ingestionportal_production_db.properties:/etc/trino/catalog/ingestionportal_production_db.properties
