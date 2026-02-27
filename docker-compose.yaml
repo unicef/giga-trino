@@ -13,7 +13,7 @@
 #      cp .env.local .env
 #
 # Usage:
-#   docker compose -f docker-compose.local.yaml up -d
+#   docker compose up -d
 
 networks:
   default:
