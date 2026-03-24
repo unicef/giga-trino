@@ -43,6 +43,20 @@
   ],
   "tables": [
     {
+      "user": "giga-admin",
+      "catalog": "delta_lake",
+      "schema": ".*",
+      "table": ".*",
+      "privileges": [
+        "SELECT",
+        "INSERT",
+        "DELETE",
+        "UPDATE",
+        "OWNERSHIP",
+        "GRANT_SELECT"
+      ]
+    },
+    {
       "group": "admin",
       "catalog": ".*",
       "schema": ".*",
@@ -78,7 +92,21 @@
       "privileges": ["SELECT"]
     },
     {
-      "group": "giga-superset|giga-trino|giga-ingestion-portal",
+      "group": "giga-superset",
+      "catalog": "delta_lake",
+      "schema": ".*",
+      "table": ".*",
+      "privileges": ["SELECT", "GRANT_SELECT"]
+    },
+    {
+      "group": "giga-trino",
+      "catalog": "delta_lake",
+      "schema": ".*",
+      "table": ".*",
+      "privileges": ["SELECT", "GRANT_SELECT"]
+    },
+        {
+      "group": "giga-ingestion-portal",
       "catalog": "delta_lake",
       "schema": ".*",
       "table": ".*",
