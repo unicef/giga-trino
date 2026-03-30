@@ -9,9 +9,6 @@ image:
   # Same value as Chart.yaml#appVersion
   tag: "445"
 
-imagePullSecrets:
-  - name: registry-credentials
-
 server:
   workers: 3
   node:
