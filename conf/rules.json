@@ -27,7 +27,7 @@
       "group": "giga-trino|giga-superset|giga-ingestion-portal",
       "catalog": "delta_lake",
       "schema": ".*",
-      "owner": "false"
+      "owner": false
     },
     {
       "group": "giga-superset",

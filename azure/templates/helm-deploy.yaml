@@ -33,6 +33,7 @@ jobs:
                   --set ingress.hosts[0].paths[0].pathType=Prefix
                   --set envFrom[0].secretRef.name="giga-trino-secrets-$(deployEnv)"
                   --set auth.passwordAuthSecret="giga-trino-secrets-$(deployEnv)"
+                  --set server.workers=1
 
             - task: HelmDeploy@0
               displayName: Helm deploy Trino stg
@@ -59,6 +60,7 @@ jobs:
                   --set ingress.hosts[0].paths[0].pathType=Prefix
                   --set envFrom[0].secretRef.name="giga-trino-secrets-$(deployEnv)"
                   --set auth.passwordAuthSecret="giga-trino-secrets-$(deployEnv)"
+                  --set server.workers=1
 
             - task: HelmDeploy@0
               displayName: Helm deploy Trino prd
