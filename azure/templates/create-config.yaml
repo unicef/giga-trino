@@ -57,3 +57,6 @@ jobs:
                     INGESTIONPORTAL_PRODUCTION_DB_CONNECTION_URL: "$(ingestionportalProductionDbConnectionUrl)"
                     INGESTIONPORTAL_PRODUCTION_USER: "$(ingestionportalProductionUser)"
                     INGESTIONPORTAL_PRODUCTION_PASSWORD: "$(ingestionportalProductionPassword)"
+                    SUPERSET_DB_CONNECTION_URL: "$(supersetDbConnectionUrl)"
+                    SUPERSET_USER: "$(supersetUser)"
+                    SUPERSET_PASSWORD: "$(supersetPassword)"
