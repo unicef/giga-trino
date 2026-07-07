@@ -24,4 +24,7 @@ variables:
   ingestionportalProductionDbConnectionUrl: $(INGESTIONPORTAL_PRODUCTION_DB_CONNECTION_URL)
   ingestionportalProductionUser: $(INGESTIONPORTAL_PRODUCTION_USER)
   ingestionportalProductionPassword: $(INGESTIONPORTAL_PRODUCTION_PASSWORD)
+  supersetDbConnectionUrl: $(SUPERSET_DB_CONNECTION_URL)
+  supersetUser: $(SUPERSET_USER)
+  supersetPassword: $(SUPERSET_PASSWORD)
   system.debug: true
