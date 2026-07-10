@@ -27,4 +27,7 @@ variables:
   supersetDbConnectionUrl: $(SUPERSET_DB_CONNECTION_URL)
   supersetUser: $(SUPERSET_USER)
   supersetPassword: $(SUPERSET_PASSWORD)
+  nocodbDbConnectionUrl: $(NOCODB_DB_CONNECTION_URL)
+  nocodbUser: $(NOCODB_USER)
+  nocodbPassword: $(NOCODB_PASSWORD)
   system.debug: true

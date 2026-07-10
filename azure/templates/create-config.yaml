@@ -60,3 +60,6 @@ jobs:
                     SUPERSET_DB_CONNECTION_URL: "$(supersetDbConnectionUrl)"
                     SUPERSET_USER: "$(supersetUser)"
                     SUPERSET_PASSWORD: "$(supersetPassword)"
+                    NOCODB_DB_CONNECTION_URL: "$(nocodbDbConnectionUrl)"
+                    NOCODB_USER: "$(nocodbUser)"
+                    NOCODB_PASSWORD: "$(nocodbPassword)"
