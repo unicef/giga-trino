@@ -194,7 +194,9 @@ accessControl:
 
 additionalNodeProperties: { }
 
-additionalConfigProperties: { }
+additionalConfigProperties:
+  query-max-execution-time: "query.max-execution-time=30m"
+  query-max-run-time: "query.max-run-time=45m"
 
 additionalLogProperties: { }
 
@@ -330,7 +332,39 @@ coordinator:
 
   affinity: { }
 
-  additionalConfigFiles: { }
+  # Resource groups: Trino's admission-control mechanism. Caps how many
+  # queries run at once (per tenant and cluster-wide) and queues the rest
+  # instead of admitting
+  additionalConfigFiles:
+    resource-groups.properties: |
+      resource-groups.configuration-manager=file
+      resource-groups.config-file=/etc/trino/resource-groups.json
+    resource-groups.json: |
+      {
+        "rootGroups": [
+          {
+            "name": "global",
+            "softMemoryLimit": "90%",
+            "hardConcurrencyLimit": 16,
+            "maxQueued": 400,
+            "schedulingPolicy": "weighted_fair",
+            "subGroups": [
+              { "name": "superset",  "softMemoryLimit": "50%", "hardConcurrencyLimit": 12, "softConcurrencyLimit": 8, "maxQueued": 300, "schedulingWeight": 6, "schedulingPolicy": "fair" },
+              { "name": "ingestion", "softMemoryLimit": "40%", "hardConcurrencyLimit": 3,  "softConcurrencyLimit": 2, "maxQueued": 40,  "schedulingWeight": 2, "schedulingPolicy": "fair" },
+              { "name": "adhoc",     "softMemoryLimit": "40%", "hardConcurrencyLimit": 3,  "softConcurrencyLimit": 2, "maxQueued": 20,  "schedulingWeight": 1, "hardCpuLimit": "1h", "schedulingPolicy": "fair" }
+            ]
+          },
+          { "name": "admin", "softMemoryLimit": "100%", "hardConcurrencyLimit": 5, "maxQueued": 20, "schedulingPolicy": "query_priority" }
+        ],
+        "selectors": [
+          { "userGroup": "admin",                "group": "admin" },
+          { "userGroup": "giga-superset",         "group": "global.superset" },
+          { "userGroup": "giga-ingestion-portal", "group": "global.ingestion" },
+          { "userGroup": "giga-trino",            "group": "global.adhoc" },
+          { "group": "global.adhoc" }
+        ],
+        "cpuQuotaPeriod": "1h"
+      }
 
   annotations: { }
 
