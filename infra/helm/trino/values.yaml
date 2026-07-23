@@ -345,16 +345,16 @@ coordinator:
           {
             "name": "global",
             "softMemoryLimit": "90%",
-            "hardConcurrencyLimit": 16,
+            "hardConcurrencyLimit": 30,
             "maxQueued": 400,
             "schedulingPolicy": "weighted_fair",
             "subGroups": [
-              { "name": "superset",  "softMemoryLimit": "50%", "hardConcurrencyLimit": 12, "softConcurrencyLimit": 8, "maxQueued": 300, "schedulingWeight": 6, "schedulingPolicy": "fair" },
-              { "name": "ingestion", "softMemoryLimit": "40%", "hardConcurrencyLimit": 3,  "softConcurrencyLimit": 2, "maxQueued": 40,  "schedulingWeight": 2, "schedulingPolicy": "fair" },
-              { "name": "adhoc",     "softMemoryLimit": "40%", "hardConcurrencyLimit": 3,  "softConcurrencyLimit": 2, "maxQueued": 20,  "schedulingWeight": 1, "hardCpuLimit": "1h", "schedulingPolicy": "fair" }
+              { "name": "superset",  "softMemoryLimit": "50%", "hardConcurrencyLimit": 20, "softConcurrencyLimit": 8, "maxQueued": 300, "schedulingWeight": 6, "schedulingPolicy": "fair" },
+              { "name": "ingestion", "softMemoryLimit": "40%", "hardConcurrencyLimit": 5,  "softConcurrencyLimit": 2, "maxQueued": 40,  "schedulingWeight": 2, "schedulingPolicy": "fair" },
+              { "name": "adhoc",     "softMemoryLimit": "40%", "hardConcurrencyLimit": 5,  "softConcurrencyLimit": 2, "maxQueued": 20,  "schedulingWeight": 1, "hardCpuLimit": "1h", "schedulingPolicy": "fair" }
             ]
           },
-          { "name": "admin", "softMemoryLimit": "100%", "hardConcurrencyLimit": 5, "maxQueued": 20, "schedulingPolicy": "query_priority" }
+          { "name": "admin", "softMemoryLimit": "100%", "hardConcurrencyLimit": 30, "maxQueued": 300, "schedulingPolicy": "query_priority" }
         ],
         "selectors": [
           { "userGroup": "admin",                "group": "admin" },
