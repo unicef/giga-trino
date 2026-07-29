@@ -67,7 +67,7 @@ accessControl:
             "allow": "read-only"
           },
           {
-            "group": "giga-trino|giga-ingestion-portal",
+            "group": "giga-trino|giga-ingestion-portal|giga-dagster",
             "catalog": ".*",
             "allow": "read-only"
           }
@@ -80,7 +80,13 @@ accessControl:
             "owner": true
           },
           {
-            "group": "giga-trino|giga-superset|giga-ingestion-portal",
+            "group": "giga-dagster",
+            "catalog": "delta_lake",
+            "schema": "default",
+            "owner": true
+          },
+          {
+            "group": "giga-trino|giga-superset|giga-ingestion-portal|giga-dagster",
             "catalog": ".*",
             "schema": ".*",
             "owner": "false"
@@ -127,8 +133,29 @@ accessControl:
             "privileges": ["SELECT"]
           },
           {
+            "group": "giga-dagster",
+            "catalog": "delta_lake",
+            "schema": "default",
+            "table": ".*",
+            "privileges": [
+              "SELECT",
+              "INSERT",
+              "DELETE",
+              "UPDATE",
+              "OWNERSHIP",
+              "GRANT_SELECT"
+            ]
+          },
+          {
             "group": "giga-superset|giga-trino|giga-ingestion-portal",
             "catalog": ".*",
+            "schema": ".*",
+            "table": ".*",
+            "privileges": ["SELECT", "GRANT_SELECT"]
+          },
+          {
+            "group": "giga-dagster",
+            "catalog": "delta_lake",
             "schema": ".*",
             "table": ".*",
             "privileges": ["SELECT", "GRANT_SELECT"]
@@ -143,7 +170,7 @@ accessControl:
             "privileges": ["EXECUTE", "GRANT_EXECUTE", "OWNERSHIP"]
           },
           {
-            "group": "giga-superset|giga-trino|giga-ingestion-portal",
+            "group": "giga-superset|giga-trino|giga-ingestion-portal|giga-dagster",
             "catalog": ".*",
             "schema": ".*",
             "function": ".*",
@@ -186,7 +213,7 @@ accessControl:
             "allow": ["execute", "kill", "view"]
           },
           {
-            "group": "giga-superset|giga-trino|giga-ingestion-portal",
+            "group": "giga-superset|giga-trino|giga-ingestion-portal|giga-dagster",
             "allow": ["execute", "view"]
           }
         ]

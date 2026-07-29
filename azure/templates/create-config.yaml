@@ -37,11 +37,13 @@ jobs:
                       $(adminAuthGigaTrino)
                       $(adminAuthGigaSuperset)
                       $(adminAuthGigaDataIngestion)
+                      $(adminAuthGigaDagster)
                     group.db: |-
                       admin:giga-admin,tmadmin,admin
                       giga-trino:giga-trino
                       giga-superset:giga-superset
                       giga-ingestion-portal:giga-ingestion-portal
+                      giga-dagster:giga-dagster
                     AZURE_STORAGE_ACCESS_KEY: "$(storageAccessKey)"
                     AZURE_STORAGE_ACCOUNT_NAME: "$(storageAccountName)"
                     HIVE_METASTORE_URI: "thrift://hive-metastore.ictd-ooi-dagster-$(deployEnv).svc.cluster.local:9083"
