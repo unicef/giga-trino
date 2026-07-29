@@ -11,7 +11,12 @@
       "allow": "read-only"
     },
     {
-      "group": "giga-trino|giga-ingestion-portal|giga-dagster",
+      "group": "giga-dagster",
+      "catalog": "delta_lake",
+      "allow": "all"
+    },
+    {
+      "group": "giga-trino|giga-ingestion-portal",
       "catalog": ".*",
       "allow": "read-only"
     }
