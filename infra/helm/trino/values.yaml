@@ -67,6 +67,11 @@ accessControl:
             "allow": "read-only"
           },
           {
+            "group": "giga-dagster",
+            "catalog": "delta_lake",
+            "allow": "all"
+          },
+          {
             "group": "giga-trino|giga-ingestion-portal|giga-dagster",
             "catalog": ".*",
             "allow": "read-only"
