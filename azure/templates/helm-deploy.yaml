@@ -21,6 +21,7 @@ jobs:
                 arguments: >
                   --timeout 15m
                   --set-string server.internalSharedSecret="$(sharedSecret)"
+                  --set-file 'accessControl.rules.rules\.json'="$(Build.SourcesDirectory)/conf/rules.json"
                   --set-file additionalCatalogs.delta_lake="$(Build.SourcesDirectory)/conf/catalog/delta_lake.properties"
                   --set-file additionalCatalogs.gigameter_production_db="$(Build.SourcesDirectory)/conf/catalog/gigameter_production_db.properties"
                   --set-file auth.groups="$(Build.SourcesDirectory)/conf/group.txt"
@@ -50,6 +51,7 @@ jobs:
                 arguments: >
                   --timeout 15m
                   --set-string server.internalSharedSecret="$(sharedSecret)"
+                  --set-file 'accessControl.rules.rules\.json'="$(Build.SourcesDirectory)/conf/rules.json"
                   --set-file additionalCatalogs.delta_lake="$(Build.SourcesDirectory)/conf/catalog/delta_lake.properties"
                   --set-file additionalCatalogs.pg_dev_oia_prjrazordb="$(Build.SourcesDirectory)/conf/catalog/pg_dev_oia_prjrazordb.properties"
                   --set-file additionalCatalogs.gigamaps_production_db="$(Build.SourcesDirectory)/conf/catalog/gigamaps_production_db.properties"
@@ -79,9 +81,9 @@ jobs:
                 arguments: >
                   --timeout 15m
                   --set-string server.internalSharedSecret="$(sharedSecret)"
+                  --set-file 'accessControl.rules.rules\.json'="$(Build.SourcesDirectory)/conf/rules.json"
                   --set-file additionalCatalogs.delta_lake="$(Build.SourcesDirectory)/conf/catalog/delta_lake.properties"
                   --set-file additionalCatalogs.gigamaps_production_db="$(Build.SourcesDirectory)/conf/catalog/gigamaps_production_db.properties"
-                  --set-file additionalCatalogs.gigameter_production_db="$(Build.SourcesDirectory)/conf/catalog/gigameter_production_db.properties"
                   --set-file additionalCatalogs.gigameter_production_db="$(Build.SourcesDirectory)/conf/catalog/gigameter_production_db.properties"
                   --set-file additionalCatalogs.ingestionportal_production_db="$(Build.SourcesDirectory)/conf/catalog/ingestionportal_production_db.properties"
                   --set-file additionalCatalogs.superset="$(Build.SourcesDirectory)/conf/catalog/superset.properties"
