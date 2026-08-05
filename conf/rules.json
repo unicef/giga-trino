@@ -145,7 +145,7 @@
       "privileges": ["SELECT", "GRANT_SELECT"]
     },
     {
-      "group": "giga-trino|giga-dagster",
+      "group": "giga-trino|giga-dagster|giga-superset",
       "catalog": ".*",
       "schema": ".*",
       "table": ".*",
