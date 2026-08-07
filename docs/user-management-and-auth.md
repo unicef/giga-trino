@@ -155,12 +155,6 @@ helm template infra/helm/trino | grep my-group
 # 2. Secret contains the user (after the create-config stage)
 kubectl -n <ns> get secret giga-trino-secrets-<env> -o jsonpath='{.data.group\.db}'    | base64 -d
 kubectl -n <ns> get secret giga-trino-secrets-<env> -o jsonpath='{.data.password\.db}' | base64 -d
-
-# 3. End-to-end: read works, write is denied (for a read-only role)
-trino --server <host> --user my-user --password
-> SHOW CATALOGS;                                      -- lists catalogs
-> SELECT * FROM <catalog>.<schema>.<table> LIMIT 5;   -- succeeds
-> CREATE SCHEMA delta_lake.tmp_x;                     -- Access Denied
 ```
 
 ## Removing a user
