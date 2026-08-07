@@ -25,7 +25,7 @@ jobs:
                   --set-file additionalCatalogs.gigameter_production_db="$(Build.SourcesDirectory)/conf/catalog/gigameter_production_db.properties"
                   --set-file auth.groups="$(Build.SourcesDirectory)/conf/group.txt"
                   --set additionalCatalogs.pg_dev_oia_prjrazordb=null
-                  --set additionalCatalogs.gigamaps_production_db=null
+                  --set-file additionalCatalogs.gigamaps_production_db="$(Build.SourcesDirectory)/conf/catalog/gigamaps_production_db.properties"
                   --set-file additionalCatalogs.ingestionportal_production_db="$(Build.SourcesDirectory)/conf/catalog/ingestionportal_production_db.properties"
                   --set-file additionalCatalogs.superset="$(Build.SourcesDirectory)/conf/catalog/superset.properties"
                   --set-file additionalCatalogs.nocodb="$(Build.SourcesDirectory)/conf/catalog/nocodb.properties"
@@ -81,7 +81,6 @@ jobs:
                   --set-string server.internalSharedSecret="$(sharedSecret)"
                   --set-file additionalCatalogs.delta_lake="$(Build.SourcesDirectory)/conf/catalog/delta_lake.properties"
                   --set-file additionalCatalogs.gigamaps_production_db="$(Build.SourcesDirectory)/conf/catalog/gigamaps_production_db.properties"
-                  --set-file additionalCatalogs.gigameter_production_db="$(Build.SourcesDirectory)/conf/catalog/gigameter_production_db.properties"
                   --set-file additionalCatalogs.gigameter_production_db="$(Build.SourcesDirectory)/conf/catalog/gigameter_production_db.properties"
                   --set-file additionalCatalogs.ingestionportal_production_db="$(Build.SourcesDirectory)/conf/catalog/ingestionportal_production_db.properties"
                   --set-file additionalCatalogs.superset="$(Build.SourcesDirectory)/conf/catalog/superset.properties"
