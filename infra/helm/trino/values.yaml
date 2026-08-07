@@ -323,6 +323,7 @@ additionalCatalogs:
   pg_dev_oia_prjrazordb: ""
   gigamaps_production_db: ""
   gigameter_production_db: ""
+  gigameter_staging_db: ""
   ingestionportal_production_db: ""
 
 
