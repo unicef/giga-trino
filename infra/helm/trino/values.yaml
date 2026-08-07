@@ -67,7 +67,12 @@ accessControl:
             "allow": "read-only"
           },
           {
-            "group": "giga-trino|giga-ingestion-portal",
+            "group": "giga-dagster",
+            "catalog": "delta_lake",
+            "allow": "all"
+          },
+          {
+            "group": "giga-trino|giga-ingestion-portal|giga-dagster",
             "catalog": ".*",
             "allow": "read-only"
           }
@@ -80,10 +85,16 @@ accessControl:
             "owner": true
           },
           {
-            "group": "giga-trino|giga-superset|giga-ingestion-portal",
-            "catalog": ".*",
+            "group": "giga-dagster",
+            "catalog": "delta_lake",
+            "schema": "default",
+            "owner": true
+          },
+          {
+            "group": "giga-trino|giga-superset|giga-ingestion-portal|giga-dagster",
+            "catalog": "delta_lake",
             "schema": ".*",
-            "owner": "false"
+            "owner": false
           },
           {
             "group": "giga-superset",
@@ -99,11 +110,32 @@ accessControl:
         ],
         "tables": [
           {
+            "user": "giga-admin",
+            "catalog": "delta_lake",
+            "schema": ".*",
+            "table": ".*",
+            "privileges": [
+              "SELECT",
+              "INSERT",
+              "DELETE",
+              "UPDATE",
+              "OWNERSHIP",
+              "GRANT_SELECT"
+            ]
+          },
+          {
             "group": "admin",
             "catalog": ".*",
             "schema": ".*",
             "table": ".*",
-            "privileges": ["SELECT", "OWNERSHIP", "INSERT", "UPDATE", "GRANT_SELECT"]
+            "privileges": [
+              "SELECT",
+              "INSERT",
+              "DELETE",
+              "UPDATE",
+              "OWNERSHIP",
+              "GRANT_SELECT"
+            ]
           },
           {
             "group": "giga-superset",
@@ -124,14 +156,72 @@ accessControl:
             "catalog": "system",
             "schema": "metadata",
             "table": ".*",
-            "privileges": ["SELECT"]
+            "privileges": [
+              "SELECT"
+            ]
           },
           {
-            "group": "giga-superset|giga-trino|giga-ingestion-portal",
+            "group": "giga-superset",
+            "catalog": "delta_lake",
+            "schema": ".*",
+            "table": ".*",
+            "privileges": [
+              "SELECT",
+              "GRANT_SELECT"
+            ]
+          },
+          {
+            "group": "giga-dagster",
+            "catalog": "delta_lake",
+            "schema": "default",
+            "table": ".*",
+            "privileges": [
+              "SELECT",
+              "INSERT",
+              "DELETE",
+              "UPDATE",
+              "OWNERSHIP",
+              "GRANT_SELECT"
+            ]
+          },
+          {
+            "group": "giga-dagster",
+            "catalog": "delta_lake",
+            "schema": ".*",
+            "table": ".*",
+            "privileges": [
+              "SELECT",
+              "GRANT_SELECT"
+            ]
+          },
+          {
+            "group": "giga-trino",
+            "catalog": "delta_lake",
+            "schema": ".*",
+            "table": ".*",
+            "privileges": [
+              "SELECT",
+              "GRANT_SELECT"
+            ]
+          },
+          {
+            "group": "giga-ingestion-portal",
+            "catalog": "delta_lake",
+            "schema": ".*",
+            "table": ".*",
+            "privileges": [
+              "SELECT",
+              "GRANT_SELECT"
+            ]
+          },
+          {
+            "group": "giga-trino|giga-dagster|giga-superset",
             "catalog": ".*",
             "schema": ".*",
             "table": ".*",
-            "privileges": ["SELECT", "GRANT_SELECT"]
+            "privileges": [
+              "SELECT"
+            ]
           }
         ],
         "functions": [
@@ -140,21 +230,30 @@ accessControl:
             "catalog": ".*",
             "schema": ".*",
             "function": ".*",
-            "privileges": ["EXECUTE", "GRANT_EXECUTE", "OWNERSHIP"]
+            "privileges": [
+              "EXECUTE",
+              "GRANT_EXECUTE",
+              "OWNERSHIP"
+            ]
           },
           {
-            "group": "giga-superset|giga-trino|giga-ingestion-portal",
-            "catalog": ".*",
+            "group": "giga-superset|giga-trino|giga-ingestion-portal|giga-dagster",
+            "catalog": "delta_lake",
             "schema": ".*",
             "function": ".*",
-            "privileges": ["EXECUTE", "GRANT_EXECUTE"]
+            "privileges": [
+              "EXECUTE",
+              "GRANT_EXECUTE"
+            ]
           },
           {
             "group": "giga-superset",
             "catalog": "system",
             "schema": "metadata",
             "function": ".*",
-            "privileges": ["EXECUTE"]
+            "privileges": [
+              "EXECUTE"
+            ]
           }
         ],
         "procedures": [
@@ -163,38 +262,55 @@ accessControl:
             "catalog": ".*",
             "schema": ".*",
             "procedure": ".*",
-            "privileges": ["EXECUTE", "GRANT_EXECUTE"]
+            "privileges": [
+              "EXECUTE",
+              "GRANT_EXECUTE"
+            ]
           },
           {
             "group": "giga-superset",
             "catalog": "delta_lake",
             "schema": "superset",
             "procedure": ".*",
-            "privileges": ["EXECUTE", "GRANT_EXECUTE"]
+            "privileges": [
+              "EXECUTE",
+              "GRANT_EXECUTE"
+            ]
           },
           {
             "group": "giga-superset",
             "catalog": "system",
             "schema": "metadata",
             "procedure": ".*",
-            "privileges": ["EXECUTE"]
+            "privileges": [
+              "EXECUTE"
+            ]
           }
         ],
         "queries": [
           {
             "group": "admin",
-            "allow": ["execute", "kill", "view"]
+            "allow": [
+              "execute",
+              "kill",
+              "view"
+            ]
           },
           {
-            "group": "giga-superset|giga-trino|giga-ingestion-portal",
-            "allow": ["execute", "view"]
+            "group": "giga-superset|giga-trino|giga-ingestion-portal|giga-dagster",
+            "allow": [
+              "execute",
+              "view"
+            ]
           }
         ]
       }
 
 additionalNodeProperties: { }
 
-additionalConfigProperties: { }
+additionalConfigProperties:
+  query-max-execution-time: "query.max-execution-time=30m"
+  query-max-run-time: "query.max-run-time=45m"
 
 additionalLogProperties: { }
 
@@ -207,6 +323,7 @@ additionalCatalogs:
   pg_dev_oia_prjrazordb: ""
   gigamaps_production_db: ""
   gigameter_production_db: ""
+  gigameter_staging_db: ""
   ingestionportal_production_db: ""
 
 
@@ -330,7 +447,39 @@ coordinator:
 
   affinity: { }
 
-  additionalConfigFiles: { }
+  # Resource groups: Trino's admission-control mechanism. Caps how many
+  # queries run at once (per tenant and cluster-wide) and queues the rest
+  # instead of admitting
+  additionalConfigFiles:
+    resource-groups.properties: |
+      resource-groups.configuration-manager=file
+      resource-groups.config-file=/etc/trino/resource-groups.json
+    resource-groups.json: |
+      {
+        "rootGroups": [
+          {
+            "name": "global",
+            "softMemoryLimit": "90%",
+            "hardConcurrencyLimit": 30,
+            "maxQueued": 400,
+            "schedulingPolicy": "weighted_fair",
+            "subGroups": [
+              { "name": "superset",  "softMemoryLimit": "50%", "hardConcurrencyLimit": 20, "softConcurrencyLimit": 8, "maxQueued": 300, "schedulingWeight": 6, "schedulingPolicy": "fair" },
+              { "name": "ingestion", "softMemoryLimit": "40%", "hardConcurrencyLimit": 5,  "softConcurrencyLimit": 2, "maxQueued": 40,  "schedulingWeight": 2, "schedulingPolicy": "fair" },
+              { "name": "adhoc",     "softMemoryLimit": "40%", "hardConcurrencyLimit": 5,  "softConcurrencyLimit": 2, "maxQueued": 20,  "schedulingWeight": 1, "hardCpuLimit": "1h", "schedulingPolicy": "fair" }
+            ]
+          },
+          { "name": "admin", "softMemoryLimit": "100%", "hardConcurrencyLimit": 30, "maxQueued": 300, "schedulingPolicy": "query_priority" }
+        ],
+        "selectors": [
+          { "userGroup": "admin",                "group": "admin" },
+          { "userGroup": "giga-superset",         "group": "global.superset" },
+          { "userGroup": "giga-ingestion-portal", "group": "global.ingestion" },
+          { "userGroup": "giga-trino",            "group": "global.adhoc" },
+          { "group": "global.adhoc" }
+        ],
+        "cpuQuotaPeriod": "1h"
+      }
 
   annotations: { }
 

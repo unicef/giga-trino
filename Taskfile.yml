@@ -3,10 +3,6 @@ version: '3'
 dotenv:
   - .env
 
-env:
-  COMMIT_SHA:
-    sh: git rev-parse --short HEAD
-
 vars:
   PROJECT_NAME: giga-trino
 
@@ -60,24 +56,6 @@ tasks:
     cmds:
       - docker compose --project-name {{.PROJECT_NAME}} down --volumes --remove-orphans {{.CLI_ARGS}}
 
-  build-and-push:
-    desc: Build and push Docker image
-    cmds:
-      - task: build
-      - task: push
-
-  build:
-    internal: true
-    desc: Build Docker image
-    cmds:
-      - docker build --tag {{.TRINO_IMAGE_REPOSITORY}}:{{.COMMIT_SHA}} .
-
-  push:
-    internal: true
-    desc: Push Docker image
-    cmds:
-      - docker push {{.TRINO_IMAGE_REPOSITORY}}:{{.COMMIT_SHA}}
-
   k8s-prereqs:
     desc: Setup pre-requisite K8s resources
     dir: infra/k8s
@@ -110,6 +88,7 @@ tasks:
         --set additionalCatalogs.pg_dev_oia_prjrazordb=null
         --set additionalCatalogs.gigamaps_production_db=null
         --set additionalCatalogs.gigameter_production_db=null
+        --set additionalCatalogs.gigameter_staging_db=null
         --set additionalCatalogs.ingestionportal_production_db=null
         --set-file auth.groups=./conf/group.txt
         --set accessControl.refreshPeriod=5s
